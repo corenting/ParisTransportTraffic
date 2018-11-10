@@ -1,4 +1,4 @@
-package traficparis.corenting.fr.traficparis
+package fr.corenting.traficparis
 
 import org.junit.Test
 
