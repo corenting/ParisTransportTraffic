@@ -7,3 +7,7 @@ enum class TransportType {
 enum class TrafficState {
     OK, TRAFFIC, WORK
 }
+
+enum class TitleType {
+    WORK, TRAFFIC, OK
+}
