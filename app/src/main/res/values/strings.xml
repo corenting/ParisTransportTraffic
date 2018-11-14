@@ -2,7 +2,7 @@
     <string name="app_name">Paris transport traffic</string>
     <string name="nothing_to_display">Nothing to display</string>
     <string name="line_logo_description">Line logo</string>
-    <string name="line_title">Line %1$s</string>
+    <string name="line_title">Line %1$s - %2$s</string>
     <string name="about">About</string>
 
     <string name="about_text"><![CDATA[Application created by corenting.<br><a href="http://www.corenting.fr">Website and contact informations</a><br><br><b>This application is not official and\n is not endorsed or approved by the RATP or the SNCF.</b><br><br>The pictograms of the metro and RER lines belong to the RATP, and are subject to the RATP licence : <a href="https://data.ratp.fr/page/cgu_ratp/">https://data.ratp.fr/page/cgu_ratp/</a><br><br>M et T are RATP brands. Subject to availability, RATP\'s logos can be downloaded and used free of charge from the <a href="http://data.ratp.fr">http://data.ratp.fr</a> website under the conditions referred to therein.<br><br>Version :&nbsp;]]></string>

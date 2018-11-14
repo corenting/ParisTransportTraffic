@@ -2,7 +2,7 @@
     <string name="app_name">Trafic transports parisiens</string>
     <string name="nothing_to_display">Rien à afficher</string>
     <string name="line_logo_description">Logo de la ligne</string>
-    <string name="line_title">Ligne %1$s</string>*
+    <string name="line_title">Ligne %1$s - %2$s</string>
     <string name="about_text"><![CDATA[Application par corenting.<br><a href="http://www.corenting.fr">Site web et informations de contact</a><br><br><b>Cette application n\'est pas officielle et\n n\'est approuvée ou liée à la RATP ou à la SNCF.</b><br><br>Les pictogrammes des lignes de métro et RER appartiennent à la RATP, et sont soumis à la licence RATP : <a href="https://data.ratp.fr/page/cgu_ratp/">https://data.ratp.fr/page/cgu_ratp/</a><br><br>M et T sont des marques de la RATP. Sous réserve de disponibilité, les logotypes de la RATP sont téléchargeables et exploitables gratuitement à partir du site <a href="http://data.ratp.fr">http://data.ratp.fr</a> dans les conditions visées au sein de celui-ci.<br><br>Version :&nbsp;]]></string>
-    <string name="about">A propos</string>
+    <string name="about">À propos</string>
 </resources>

@@ -33,7 +33,8 @@ class MainAdapter(private val context: Context) :
     }
 
     private fun bindHolderContent(itemView: View, currentResult: ListItem) {
-        itemView.titleTextView.text = context.getString(R.string.line_title, currentResult.lineName)
+        itemView.titleTextView.text = context.getString(R.string.line_title, currentResult.lineName,
+            currentResult.title)
         itemView.subtitleTextView.text = currentResult.stateDescription
 
         // Drawable
