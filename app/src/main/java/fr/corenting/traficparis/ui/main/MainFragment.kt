@@ -1,5 +1,6 @@
 package fr.corenting.traficparis.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.*
@@ -14,6 +15,7 @@ import fr.corenting.traficparis.R
 import fr.corenting.traficparis.models.ApiResponseResults
 import fr.corenting.traficparis.traffic.TrafficViewModel
 import fr.corenting.traficparis.utils.MiscUtils
+import fr.corenting.traficparis.utils.PersistenceUtils
 import fr.corenting.traficparis.utils.ResultsUtils
 import kotlinx.android.synthetic.main.main_fragment.*
 
@@ -24,6 +26,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
         fun newInstance() = MainFragment()
     }
 
+    private var menu: Menu? = null
     private lateinit var viewModel: TrafficViewModel
     private lateinit var observer: Observer<ApiResponseResults>
 
@@ -41,8 +44,8 @@ class MainFragment : androidx.fragment.app.Fragment() {
             if (it == null) {
                 endLoading(empty = true)
                 Snackbar.make(
-                    container, getString(R.string.download_error),
-                    Snackbar.LENGTH_SHORT
+                        container, getString(R.string.download_error),
+                        Snackbar.LENGTH_SHORT
                 ).show()
             } else {
                 endLoading(empty = false)
@@ -50,10 +53,10 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
                 // Apply filter
                 val filteredResults = ResultsUtils.filterResults(
-                    it, displayRer, displayMetro, displayTram
+                        it, displayRer, displayMetro, displayTram
                 )
                 (recyclerView.adapter as MainAdapter)
-                    .addItems(ResultsUtils.convertApiResultsToListItems(filteredResults))
+                        .addItems(ResultsUtils.convertApiResultsToListItems(filteredResults))
             }
         }
     }
@@ -62,9 +65,23 @@ class MainFragment : androidx.fragment.app.Fragment() {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.fragment_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
+
+        // Update menu values for filters from shared prefs
+        if (context != null) {
+            displayRer = PersistenceUtils.getDisplayRerValue(activity as Context)
+            displayMetro = PersistenceUtils.getDisplayMetroValue(activity as Context)
+            displayTram = PersistenceUtils.getDisplayTramValue(activity as Context)
+
+            val subMenu = menu?.getItem(0)?.subMenu
+            subMenu?.getItem(0)?.isChecked = displayRer
+            subMenu?.getItem(1)?.isChecked = displayMetro
+            subMenu?.getItem(2)?.isChecked = displayTram
+
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -75,6 +92,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
                         item.itemId == R.id.filter_metro ||
                         item.itemId == R.id.filter_tram -> {
                     item.isChecked = !item.isChecked
+                    PersistenceUtils.setValue(activity as Context, item.itemId, item.isChecked)
                     changeDisplayedCategories(item.itemId, item.isChecked)
                 }
             }
@@ -122,12 +140,12 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
     private fun showAboutPopup() {
         (android.app.AlertDialog.Builder(context)
-            .setTitle(R.string.app_name)
-            .setIcon(R.mipmap.ic_launcher)
-            .setMessage(MiscUtils.htmlToSpanned(getString(R.string.about_text) + BuildConfig.VERSION_NAME))
-            .setNegativeButton("OK") { dialog, _ -> dialog.dismiss() }
-            .show()
-            .findViewById(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
+                .setTitle(R.string.app_name)
+                .setIcon(R.mipmap.ic_launcher)
+                .setMessage(MiscUtils.htmlToSpanned(getString(R.string.about_text) + BuildConfig.VERSION_NAME))
+                .setNegativeButton("OK") { dialog, _ -> dialog.dismiss() }
+                .show()
+                .findViewById(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun endLoading(empty: Boolean) {
