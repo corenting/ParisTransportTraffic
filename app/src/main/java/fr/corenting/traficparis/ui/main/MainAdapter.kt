@@ -26,15 +26,14 @@ class MainAdapter(private val context: Context) :
     private var dataSet = mutableListOf<Any>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == TYPE_TITLE) {
+        return if (viewType == TYPE_TITLE) {
             val v = LayoutInflater.from(parent.context)
                 .inflate(R.layout.list_title, parent, false)
-            return HeaderViewHolder(v)
-        }
-        else {
+            HeaderViewHolder(v)
+        } else {
             val v = LayoutInflater.from(parent.context)
                 .inflate(R.layout.list_item, parent, false)
-            return ItemViewHolder(v)
+            ItemViewHolder(v)
         }
     }
 
@@ -54,15 +53,16 @@ class MainAdapter(private val context: Context) :
         val currentResult = dataSet[position]
         if (getItemViewType(position) == TYPE_ITEM) {
             bindItemHolder(holder.itemView, currentResult as ListItem)
-        }
-        else {
+        } else {
             bindTitleHolder(holder.itemView, currentResult as ListTitle)
         }
     }
 
     private fun bindItemHolder(itemView: View, currentResult: ListItem) {
-        itemView.titleTextView.text = context.getString(R.string.line_title, currentResult.lineName,
-            currentResult.title)
+        itemView.titleTextView.text = context.getString(
+            R.string.line_title, currentResult.lineName,
+            currentResult.title
+        )
         itemView.subtitleTextView.text = currentResult.stateDescription
 
         // Drawable
@@ -79,7 +79,7 @@ class MainAdapter(private val context: Context) :
     }
 
     private fun bindTitleHolder(itemView: View, currentResult: ListTitle) {
-        val title:String = when {
+        val title: String = when {
             currentResult.title == TitleType.OK -> context.getString(R.string.normal_traffic)
             currentResult.title == TitleType.WORK -> context.getString(R.string.work)
             else -> context.getString(R.string.issues)

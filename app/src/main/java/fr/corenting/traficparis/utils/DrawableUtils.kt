@@ -17,8 +17,9 @@ object DrawableUtils {
         }
 
         try {
-            val drawable = ContextCompat.getDrawable(context,
-                    getDrawableResIdByName(context, name)
+            val drawable = ContextCompat.getDrawable(
+                context,
+                getDrawableResIdByName(context, name)
             )
 
             if (drawable != null) {
@@ -33,14 +34,17 @@ object DrawableUtils {
                 TransportType.TRAM -> "tram"
             }
 
-            return ContextCompat.getDrawable(context,
-                    getDrawableResIdByName(context, basicName)
+            return ContextCompat.getDrawable(
+                context,
+                getDrawableResIdByName(context, basicName)
             )
         }
     }
 
     private fun getDrawableResIdByName(context: Context, name: String): Int {
-        return context.resources.getIdentifier(name.toLowerCase(),
-                "drawable", context.packageName)
+        return context.resources.getIdentifier(
+            name.toLowerCase(),
+            "drawable", context.packageName
+        )
     }
 }
