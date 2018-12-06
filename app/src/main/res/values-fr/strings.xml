@@ -9,4 +9,8 @@
     <string name="normal_traffic">Trafic normal</string>
     <string name="work">Travaux</string>
     <string name="issues">Pertubations</string>
+    <string name="filter">Filtrer</string>
+    <string name="rer">RER</string>
+    <string name="metro">Métro</string>
+    <string name="tram">Tramway</string>
 </resources>

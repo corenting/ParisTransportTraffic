@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/filter_menu"
+        android:icon="@drawable/ic_filter"
+        android:title="@string/about"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group android:checkableBehavior="all">
+                <item
+                    android:id="@+id/filter_rer"
+                    android:checked="true"
+                    android:title="@string/rer" />
+                <item
+                    android:id="@+id/filter_metro"
+                    android:checked="true"
+                    android:title="@string/metro" />
+                <item
+                    android:id="@+id/filter_tram"
+                    android:checked="true"
+                    android:title="@string/tram" />
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/about_menu"
+        android:icon="@drawable/ic_info"
+        android:title="@string/about"
+        app:showAsAction="ifRoom" />
+</menu>
