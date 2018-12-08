@@ -26,7 +26,6 @@ class MainFragment : androidx.fragment.app.Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private var menu: Menu? = null
     private lateinit var viewModel: TrafficViewModel
     private lateinit var observer: Observer<ApiResponseResults>
 
@@ -44,19 +43,27 @@ class MainFragment : androidx.fragment.app.Fragment() {
             if (it == null) {
                 endLoading(empty = true)
                 Snackbar.make(
-                        container, getString(R.string.download_error),
-                        Snackbar.LENGTH_SHORT
+                    container, getString(R.string.download_error),
+                    Snackbar.LENGTH_SHORT
                 ).show()
             } else {
+                // Show error message
+                if (it.message == "Something went wrong") {
+                    Snackbar.make(
+                        container, getString(R.string.download_error),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+
                 endLoading(empty = false)
                 recyclerView.layoutManager = LinearLayoutManager(context)
 
                 // Apply filter
                 val filteredResults = ResultsUtils.filterResults(
-                        it, displayRer, displayMetro, displayTram
+                    it, displayRer, displayMetro, displayTram
                 )
                 (recyclerView.adapter as MainAdapter)
-                        .addItems(ResultsUtils.convertApiResultsToListItems(filteredResults))
+                    .addItems(ResultsUtils.convertApiResultsToListItems(filteredResults))
             }
         }
     }
@@ -140,12 +147,12 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
     private fun showAboutPopup() {
         (android.app.AlertDialog.Builder(context)
-                .setTitle(R.string.app_name)
-                .setIcon(R.mipmap.ic_launcher)
-                .setMessage(MiscUtils.htmlToSpanned(getString(R.string.about_text) + BuildConfig.VERSION_NAME))
-                .setNegativeButton("OK") { dialog, _ -> dialog.dismiss() }
-                .show()
-                .findViewById(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
+            .setTitle(R.string.app_name)
+            .setIcon(R.mipmap.ic_launcher)
+            .setMessage(MiscUtils.htmlToSpanned(getString(R.string.about_text) + BuildConfig.VERSION_NAME))
+            .setNegativeButton("OK") { dialog, _ -> dialog.dismiss() }
+            .show()
+            .findViewById(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun endLoading(empty: Boolean) {

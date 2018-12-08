@@ -4,14 +4,18 @@ import fr.corenting.traficparis.models.*
 
 object ResultsUtils {
 
-    fun filterResults(results: ApiResponseResults, displayRer: Boolean, displayMetro: Boolean,
-                      displayTram: Boolean): ApiResponseResults {
+    fun filterResults(
+        results: ApiResponseResults, displayRer: Boolean, displayMetro: Boolean,
+        displayTram: Boolean
+    ): ApiResponseResults {
 
         // Filter according to user selection
         return ApiResponseResults(
-            if (displayMetro) results.metros else arrayListOf(),
-            if (displayRer) results.rers else arrayListOf(),
-            if (displayTram) results.tramways else arrayListOf())
+            results.message,
+            if (displayMetro && results.metros != null) results.metros else arrayListOf(),
+            if (displayRer && results.rers != null) results.rers else arrayListOf(),
+            if (displayTram && results.tramways != null) results.tramways else arrayListOf()
+        )
     }
 
     fun convertApiResultsToListItems(results: ApiResponseResults): List<Any> {
@@ -19,15 +23,21 @@ object ResultsUtils {
 
         // First, add lines with traffic issues
         val linesWithTrafficIssues = mutableListOf<Any>()
-        linesWithTrafficIssues.addAll(results.metros
-            .filter { it.slug != "normal" && it.slug != "normal_trav" }
-            .map { convertFromApiModel(TransportType.METRO, it) })
-        linesWithTrafficIssues.addAll(results.rers
-            .filter { it.slug != "normal" && it.slug != "normal_trav" }
-            .map { convertFromApiModel(TransportType.RER, it) })
-        linesWithTrafficIssues.addAll(results.tramways
-            .filter { it.slug != "normal" && it.slug != "normal_trav" }
-            .map { convertFromApiModel(TransportType.TRAM, it) })
+        if (results.metros != null) {
+            linesWithTrafficIssues.addAll(results.metros
+                .filter { it.slug != "normal" && it.slug != "normal_trav" }
+                .map { convertFromApiModel(TransportType.METRO, it) })
+        }
+        if (results.rers != null) {
+            linesWithTrafficIssues.addAll(results.rers
+                .filter { it.slug != "normal" && it.slug != "normal_trav" }
+                .map { convertFromApiModel(TransportType.RER, it) })
+        }
+        if (results.tramways != null) {
+            linesWithTrafficIssues.addAll(results.tramways
+                .filter { it.slug != "normal" && it.slug != "normal_trav" }
+                .map { convertFromApiModel(TransportType.TRAM, it) })
+        }
         if (linesWithTrafficIssues.size != 0) {
             retList.add(ListTitle(TitleType.TRAFFIC))
             retList.addAll(linesWithTrafficIssues)
@@ -36,15 +46,21 @@ object ResultsUtils {
 
         // Then, add lines with work
         val linesWithWork = mutableListOf<Any>()
-        linesWithWork.addAll(results.metros
-            .filter { it.slug == "normal_trav" }
-            .map { convertFromApiModel(TransportType.METRO, it) })
-        linesWithWork.addAll(results.rers
-            .filter { it.slug == "normal_trav" }
-            .map { convertFromApiModel(TransportType.RER, it) })
-        linesWithWork.addAll(results.tramways
-            .filter { it.slug == "normal_trav" }
-            .map { convertFromApiModel(TransportType.TRAM, it) })
+        if (results.metros != null) {
+            linesWithWork.addAll(results.metros
+                .filter { it.slug == "normal_trav" }
+                .map { convertFromApiModel(TransportType.METRO, it) })
+        }
+        if (results.rers != null) {
+            linesWithWork.addAll(results.rers
+                .filter { it.slug == "normal_trav" }
+                .map { convertFromApiModel(TransportType.RER, it) })
+        }
+        if (results.tramways != null) {
+            linesWithWork.addAll(results.tramways
+                .filter { it.slug == "normal_trav" }
+                .map { convertFromApiModel(TransportType.TRAM, it) })
+        }
         if (linesWithWork.size > 0) {
             retList.add(ListTitle(TitleType.WORK))
             retList.addAll(linesWithWork)
@@ -52,15 +68,21 @@ object ResultsUtils {
 
         // Then, add working lines
         retList.add(ListTitle(TitleType.OK))
-        retList.addAll(results.metros
-            .filter { it.slug == "normal" }
-            .map { convertFromApiModel(TransportType.METRO, it) })
-        retList.addAll(results.rers
-            .filter { it.slug == "normal" }
-            .map { convertFromApiModel(TransportType.RER, it) })
-        retList.addAll(results.tramways
-            .filter { it.slug == "normal" }
-            .map { convertFromApiModel(TransportType.TRAM, it) })
+        if (results.metros != null) {
+            retList.addAll(results.metros
+                .filter { it.slug == "normal" }
+                .map { convertFromApiModel(TransportType.METRO, it) })
+        }
+        if (results.rers != null) {
+            retList.addAll(results.rers
+                .filter { it.slug == "normal" }
+                .map { convertFromApiModel(TransportType.RER, it) })
+        }
+        if (results.tramways != null) {
+            retList.addAll(results.tramways
+                .filter { it.slug == "normal" }
+                .map { convertFromApiModel(TransportType.TRAM, it) })
+        }
 
         return retList
     }
