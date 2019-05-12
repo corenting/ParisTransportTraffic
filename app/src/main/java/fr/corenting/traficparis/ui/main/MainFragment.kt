@@ -42,17 +42,11 @@ class MainFragment : androidx.fragment.app.Fragment() {
         observer = Observer {
             if (it == null) {
                 endLoading(empty = true)
-                Snackbar.make(
-                    container, getString(R.string.download_error),
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                displayErrorMessage()
             } else {
                 // Show error message
                 if (it.message == "Something went wrong") {
-                    Snackbar.make(
-                        container, getString(R.string.download_error),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                    displayErrorMessage()
                 }
 
                 endLoading(empty = false)
@@ -62,13 +56,22 @@ class MainFragment : androidx.fragment.app.Fragment() {
                 val filteredResults = ResultsUtils.filterResults(
                     it, displayRer, displayMetro, displayTram
                 )
-                (recyclerView.adapter as MainAdapter)
-                    .addItems(ResultsUtils.convertApiResultsToListItems(filteredResults))
+
+                try {
+                    (recyclerView.adapter as MainAdapter)
+                        .addItems(ResultsUtils.convertApiResultsToListItems(filteredResults))
+                } catch (pass: IllegalArgumentException) {
+                    displayErrorMessage()
+                }
             }
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
@@ -133,6 +136,13 @@ class MainFragment : androidx.fragment.app.Fragment() {
         viewModel.getTraffic().observe(this, observer)
     }
 
+    private fun displayErrorMessage() {
+        Snackbar.make(
+            container, getString(R.string.download_error),
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
     private fun changeDisplayedCategories(filterId: Int, newValue: Boolean) {
         when (filterId) {
             R.id.filter_rer -> displayRer = newValue
@@ -152,7 +162,8 @@ class MainFragment : androidx.fragment.app.Fragment() {
             .setMessage(MiscUtils.htmlToSpanned(getString(R.string.about_text) + BuildConfig.VERSION_NAME))
             .setNegativeButton("OK") { dialog, _ -> dialog.dismiss() }
             .show()
-            .findViewById(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
+            .findViewById(android.R.id.message) as TextView).movementMethod =
+            LinkMovementMethod.getInstance()
     }
 
     private fun endLoading(empty: Boolean) {

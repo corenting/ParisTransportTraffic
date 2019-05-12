@@ -25,7 +25,7 @@ object TrafficRepository {
             .enqueue(object : Callback<ApiResponse> {
                 override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                     if (response.isSuccessful && response.body() != null) {
-                       val res = response.body()!!.result
+                        val res = response.body()!!.result
                         data.value = res
                     } else {
                         data.value = null

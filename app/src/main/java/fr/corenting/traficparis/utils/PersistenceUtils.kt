@@ -32,7 +32,8 @@ object PersistenceUtils {
     }
 
     private fun setBoolean(context: Context, prefName: String, newValue: Boolean) {
-        val editor = context.getSharedPreferences(prefName, MODE_PRIVATE).edit()
+        val editor =
+            context.getSharedPreferences(prefName, MODE_PRIVATE).edit()
         editor.putBoolean(prefName, newValue)
         editor.apply()
     }

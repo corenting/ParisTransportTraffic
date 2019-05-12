@@ -5,8 +5,8 @@ import fr.corenting.traficparis.models.*
 object ResultsUtils {
 
     fun filterResults(
-        results: ApiResponseResults, displayRer: Boolean, displayMetro: Boolean,
-        displayTram: Boolean
+        results: ApiResponseResults, displayRer: Boolean,
+        displayMetro: Boolean, displayTram: Boolean
     ): ApiResponseResults {
 
         // Filter according to user selection
@@ -42,7 +42,6 @@ object ResultsUtils {
             retList.add(ListTitle(TitleType.TRAFFIC))
             retList.addAll(linesWithTrafficIssues)
         }
-
 
         // Then, add lines with work
         val linesWithWork = mutableListOf<Any>()
