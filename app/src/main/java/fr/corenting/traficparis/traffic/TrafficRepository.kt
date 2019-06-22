@@ -1,5 +1,6 @@
 package fr.corenting.traficparis.traffic
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import retrofit2.Call
@@ -14,7 +15,7 @@ import fr.corenting.traficparis.models.ApiResponseResults
 object TrafficRepository {
 
     private val apiService: TrafficApiService = Retrofit.Builder()
-        .baseUrl("https://api-ratp.pierre-grimaud.fr/v3/")
+        .baseUrl("https://api-ratp.pierre-grimaud.fr/v4/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(TrafficApiService::class.java)
@@ -34,6 +35,8 @@ object TrafficRepository {
 
                 override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                     data.value = null
+                    Log.d("DEBUG", t.message)
+
                 }
             })
         return data

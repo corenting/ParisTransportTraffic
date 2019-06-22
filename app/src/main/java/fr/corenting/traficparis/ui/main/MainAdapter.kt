@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import fr.corenting.traficparis.R
 import kotlinx.android.synthetic.main.list_item.view.*
@@ -15,15 +17,36 @@ import kotlinx.android.synthetic.main.list_title.view.*
 
 
 class MainAdapter(private val context: Context) :
-    androidx.recyclerview.widget.RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    ListAdapter<Any, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<Any>() {
+        override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
+            if (oldItem is ListItem && newItem is ListItem) {
+                return oldItem == newItem
+            }
+
+            if (oldItem is ListTitle && newItem is ListTitle) {
+                return oldItem == newItem
+            }
+
+            return false
+        }
+
+        override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
+            if (oldItem is ListItem && newItem is ListItem) {
+                return oldItem.type == newItem.type && oldItem.lineName == newItem.lineName
+            }
+
+            if (oldItem is ListTitle && newItem is ListTitle) {
+                return oldItem.title == newItem.title
+            }
+
+            return false
+        }
+    }) {
 
     companion object {
         const val TYPE_TITLE = 0
         const val TYPE_ITEM = 1
     }
-
-    private lateinit var recyclerView: RecyclerView
-    private var dataSet = mutableListOf<Any>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_TITLE) {
@@ -37,12 +60,8 @@ class MainAdapter(private val context: Context) :
         }
     }
 
-    override fun getItemCount(): Int {
-        return dataSet.size
-    }
-
     override fun getItemViewType(position: Int): Int {
-        val currentResult = dataSet[position]
+        val currentResult = getItem(position)
         if (currentResult is ListTitle) {
             return TYPE_TITLE
         }
@@ -50,7 +69,7 @@ class MainAdapter(private val context: Context) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val currentResult = dataSet[position]
+        val currentResult = getItem(position)
         if (getItemViewType(position) == TYPE_ITEM) {
             bindItemHolder(holder.itemView, currentResult as ListItem)
         } else {
@@ -87,33 +106,9 @@ class MainAdapter(private val context: Context) :
         itemView.headerTitleTextView.text = title
     }
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        this.recyclerView = recyclerView
-    }
-
-    fun removeAllItems() {
-        recyclerView.post {
-            recyclerView.isEnabled = false
-            val size = dataSet.size
-            dataSet.clear()
-            notifyItemRangeRemoved(0, size)
-            recyclerView.isEnabled = true
-        }
-    }
-
-    fun addItems(items: List<Any>) {
-        recyclerView.post {
-            recyclerView.isEnabled = false
-            dataSet.addAll(items)
-            notifyItemRangeInserted(0, items.size)
-            recyclerView.isEnabled = true
-        }
-    }
-
     class ItemViewHolder(itemView: View) :
-        androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
+        RecyclerView.ViewHolder(itemView)
 
     class HeaderViewHolder(itemView: View) :
-        androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
+        RecyclerView.ViewHolder(itemView)
 }

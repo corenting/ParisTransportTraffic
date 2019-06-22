@@ -3,8 +3,10 @@ package fr.corenting.traficparis.ui.main
 import android.content.Context
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.*
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,7 +52,6 @@ class MainFragment : androidx.fragment.app.Fragment() {
                 }
 
                 endLoading(empty = false)
-                recyclerView.layoutManager = LinearLayoutManager(context)
 
                 // Apply filter
                 val filteredResults = ResultsUtils.filterResults(
@@ -59,8 +60,9 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
                 try {
                     (recyclerView.adapter as MainAdapter)
-                        .addItems(ResultsUtils.convertApiResultsToListItems(filteredResults))
+                        .submitList(ResultsUtils.convertApiResultsToListItems(filteredResults))
                 } catch (pass: IllegalArgumentException) {
+                    Log.d("DEBUG", pass.message)
                     displayErrorMessage()
                 }
             }
@@ -115,9 +117,9 @@ class MainFragment : androidx.fragment.app.Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // Init recyclerview
-        recyclerView.itemAnimator = SlideInOutLeftAnimator(recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = MainAdapter(context!!)
+        recyclerView.itemAnimator = SlideInOutLeftAnimator(recyclerView)
 
         startLoading()
 
@@ -156,17 +158,24 @@ class MainFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun showAboutPopup() {
-        (android.app.AlertDialog.Builder(context)
-            .setTitle(R.string.app_name)
-            .setIcon(R.mipmap.ic_launcher)
-            .setMessage(MiscUtils.htmlToSpanned(getString(R.string.about_text) + BuildConfig.VERSION_NAME))
-            .setNegativeButton("OK") { dialog, _ -> dialog.dismiss() }
-            .show()
-            .findViewById(android.R.id.message) as TextView).movementMethod =
-            LinkMovementMethod.getInstance()
+        if (context != null) {
+            val dialog = AlertDialog.Builder(context!!)
+                .setTitle(R.string.app_name)
+                .setIcon(R.mipmap.ic_launcher)
+                .setMessage(MiscUtils.htmlToSpanned(getString(R.string.about_text) + BuildConfig.VERSION_NAME))
+                .setNegativeButton("OK") { dialog, _ -> dialog.dismiss() }
+                .create()
+
+            dialog.show()
+            (dialog.findViewById<TextView>(android.R.id.message))?.movementMethod = LinkMovementMethod.getInstance()
+        }
     }
 
     private fun endLoading(empty: Boolean) {
+        if (empty) {
+            (recyclerView.adapter as MainAdapter).submitList(emptyList())
+        }
+
         emptySwipeRefreshLayout.post {
             emptySwipeRefreshLayout.visibility = if (empty) View.VISIBLE else View.GONE
             emptySwipeRefreshLayout.isRefreshing = false
@@ -178,7 +187,6 @@ class MainFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun startLoading() {
-        (recyclerView.adapter as MainAdapter).removeAllItems()
         emptySwipeRefreshLayout.post { emptySwipeRefreshLayout.visibility = View.GONE }
         swipeRefreshLayout.post {
             swipeRefreshLayout.visibility = View.VISIBLE
