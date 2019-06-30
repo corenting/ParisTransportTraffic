@@ -62,7 +62,6 @@ class MainFragment : androidx.fragment.app.Fragment() {
                     (recyclerView.adapter as MainAdapter)
                         .submitList(ResultsUtils.convertApiResultsToListItems(filteredResults))
                 } catch (pass: IllegalArgumentException) {
-                    Log.d("DEBUG", pass.message)
                     displayErrorMessage()
                 }
             }

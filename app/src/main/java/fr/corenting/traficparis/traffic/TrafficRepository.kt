@@ -35,8 +35,6 @@ object TrafficRepository {
 
                 override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                     data.value = null
-                    Log.d("DEBUG", t.message)
-
                 }
             })
         return data
