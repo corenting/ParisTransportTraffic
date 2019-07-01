@@ -15,6 +15,14 @@ steps:
     workingDirectory: ''
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
-    publishJUnitResults: false
+    publishJUnitResults: False
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleDebug'
+- task: Gradle@2
+  inputs:
+    workingDirectory: ''
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: True
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'testDebugUnitTest'
