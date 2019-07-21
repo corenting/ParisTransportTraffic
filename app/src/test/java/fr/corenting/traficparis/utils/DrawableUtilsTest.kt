@@ -21,7 +21,7 @@ class DrawableUtilsTest {
         for (i in 1..14) {
             val ret = DrawableUtils.getDrawableForLine(this.context, TransportType.METRO, i.toString())
             assertNotNull(ret)
-            assertNotEquals(ret, 0x00000000)
+            assertNotEquals(ret, 0)
         }
     }
 
@@ -30,7 +30,7 @@ class DrawableUtilsTest {
         for (i in listOf("A", "B", "C", "D", "E")) {
             val ret = DrawableUtils.getDrawableForLine(this.context, TransportType.METRO, i)
             assertNotNull(ret)
-            assertNotEquals(ret, 0x00000000)
+            assertNotEquals(ret, 0)
         }
     }
 
@@ -39,7 +39,7 @@ class DrawableUtilsTest {
         for (i in 1..6) {
             val ret = DrawableUtils.getDrawableForLine(this.context, TransportType.METRO, i.toString())
             assertNotNull(ret)
-            assertNotEquals(ret, 0x00000000)
+            assertNotEquals(ret, 0)
         }
     }
 }

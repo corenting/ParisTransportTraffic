@@ -1,15 +1,14 @@
 package fr.corenting.traficparis.traffic
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import fr.corenting.traficparis.models.ApiResponse
+import fr.corenting.traficparis.models.ApiResponseResults
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import fr.corenting.traficparis.models.ApiResponse
-import fr.corenting.traficparis.models.ApiResponseResults
 
 
 object TrafficRepository {

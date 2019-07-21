@@ -3,7 +3,6 @@ package fr.corenting.traficparis.ui.main
 import android.content.Context
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
