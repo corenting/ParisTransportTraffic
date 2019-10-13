@@ -160,12 +160,18 @@ class MainFragment : androidx.fragment.app.Fragment() {
             val dialog = AlertDialog.Builder(context!!)
                 .setTitle(R.string.app_name)
                 .setIcon(R.mipmap.ic_launcher)
-                .setMessage(MiscUtils.htmlToSpanned(getString(R.string.about_text) + BuildConfig.VERSION_NAME))
+                .setMessage(
+                    MiscUtils.htmlToSpanned(
+                        getString(R.string.about_text) +
+                                BuildConfig.VERSION_NAME
+                    )
+                )
                 .setNegativeButton("OK") { dialog, _ -> dialog.dismiss() }
                 .create()
 
             dialog.show()
-            (dialog.findViewById<TextView>(android.R.id.message))?.movementMethod = LinkMovementMethod.getInstance()
+            (dialog.findViewById<TextView>(android.R.id.message))?.movementMethod =
+                LinkMovementMethod.getInstance()
         }
     }
 
