@@ -1,0 +1,2 @@
+- Possibilité de filtrer les types de transport affichés
+- Correction d'un crash lors d'une réponse incomplète du serveur

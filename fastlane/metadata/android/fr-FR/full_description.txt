@@ -1,0 +1,10 @@
+Cette application vous permet de consulter rapidement les informations trafic pour différents transports RATP/SNCF (sur Paris et ses alentours) :
+• Métro
+• RER
+• Tramway
+<br />
+<b>Attention :</b> cette application n'est pas affiliée à la RATP ou à la SNCF. Il s'agit d'une application non officielle.
+<br />
+Les pictogrammes des lignes de métro et RER appartiennent à la RATP, et sont soumis à la licence RATP : https://data.ratp.fr/page/cgu_ratp/
+<br />
+M et T sont des marques de la RATP. Sous réserve de disponibilité, les logotypes de la RATP sont téléchargeables et exploitables gratuitement à partir du site http://data.ratp.fr dans les conditions visées au sein de celui-ci.
