@@ -75,9 +75,8 @@ class MainFragment : androidx.fragment.app.Fragment() {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.fragment_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.fragment_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
 
         // Update menu values for filters from shared prefs
@@ -86,7 +85,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
             displayMetro = PersistenceUtils.getDisplayMetroValue(activity as Context)
             displayTram = PersistenceUtils.getDisplayTramValue(activity as Context)
 
-            val subMenu = menu?.getItem(0)?.subMenu
+            val subMenu = menu.getItem(0)?.subMenu
             subMenu?.getItem(0)?.isChecked = displayRer
             subMenu?.getItem(1)?.isChecked = displayMetro
             subMenu?.getItem(2)?.isChecked = displayTram
@@ -94,17 +93,13 @@ class MainFragment : androidx.fragment.app.Fragment() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item != null) {
-            when {
-                item.itemId == R.id.about_menu -> showAboutPopup()
-                item.itemId == R.id.filter_rer ||
-                        item.itemId == R.id.filter_metro ||
-                        item.itemId == R.id.filter_tram -> {
-                    item.isChecked = !item.isChecked
-                    PersistenceUtils.setValue(activity as Context, item.itemId, item.isChecked)
-                    changeDisplayedCategories(item.itemId, item.isChecked)
-                }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.about_menu -> showAboutPopup()
+            R.id.filter_rer, R.id.filter_metro, R.id.filter_tram -> {
+                item.isChecked = !item.isChecked
+                PersistenceUtils.setValue(activity as Context, item.itemId, item.isChecked)
+                changeDisplayedCategories(item.itemId, item.isChecked)
             }
         }
 

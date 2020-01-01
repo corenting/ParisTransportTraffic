@@ -98,9 +98,9 @@ class MainAdapter(private val context: Context) :
     }
 
     private fun bindTitleHolder(itemView: View, currentResult: ListTitle) {
-        val title: String = when {
-            currentResult.title == TitleType.OK -> context.getString(R.string.normal_traffic)
-            currentResult.title == TitleType.WORK -> context.getString(R.string.work)
+        val title: String = when (currentResult.title) {
+            TitleType.OK -> context.getString(R.string.normal_traffic)
+            TitleType.WORK -> context.getString(R.string.work)
             else -> context.getString(R.string.issues)
         }
         itemView.headerTitleTextView.text = title
