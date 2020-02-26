@@ -91,9 +91,9 @@ object ResultsUtils {
         apiItem: ApiResponseItem
     ): ListItem {
 
-        val lineState: TrafficState = when {
-            apiItem.slug == "normal" -> TrafficState.OK
-            apiItem.slug == "normal_trav" -> TrafficState.WORK
+        val lineState: TrafficState = when (apiItem.slug) {
+            "normal" -> TrafficState.OK
+            "normal_trav" -> TrafficState.WORK
             else -> TrafficState.TRAFFIC
         }
 

@@ -6,8 +6,8 @@ import android.text.method.LinkMovementMethod
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.itemanimators.SlideInOutLeftAnimator
@@ -27,7 +27,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: TrafficViewModel
+    private val viewModel: TrafficViewModel by activityViewModels()
     private lateinit var observer: Observer<ApiResponseResults>
 
     private var displayRer = true
@@ -106,29 +106,26 @@ class MainFragment : androidx.fragment.app.Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // Init recyclerview
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = MainAdapter(context!!)
+        recyclerView.adapter = MainAdapter()
         recyclerView.itemAnimator = SlideInOutLeftAnimator(recyclerView)
 
         startLoading()
 
-        // View model
-        viewModel = ViewModelProviders.of(this).get(TrafficViewModel::class.java)
-
         // Add listeners
         val listener = {
             startLoading()
-            viewModel.getTraffic().observe(this, observer)
+            viewModel.getTraffic().observe(viewLifecycleOwner, observer)
         }
         emptySwipeRefreshLayout.setOnRefreshListener(listener)
         swipeRefreshLayout.setOnRefreshListener(listener)
 
         // Load data
-        viewModel.getTraffic().observe(this, observer)
+        viewModel.getTraffic().observe(viewLifecycleOwner, observer)
     }
 
     private fun displayErrorMessage() {
@@ -151,8 +148,9 @@ class MainFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun showAboutPopup() {
-        if (context != null) {
-            val dialog = AlertDialog.Builder(context!!)
+        val currentContext = context
+        if (currentContext != null) {
+            val dialog = AlertDialog.Builder(currentContext)
                 .setTitle(R.string.app_name)
                 .setIcon(R.mipmap.ic_launcher)
                 .setMessage(

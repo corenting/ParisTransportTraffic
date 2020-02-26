@@ -5,7 +5,6 @@ import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import fr.corenting.traficparis.R
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner

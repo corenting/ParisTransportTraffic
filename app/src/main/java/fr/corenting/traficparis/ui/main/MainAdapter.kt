@@ -1,6 +1,6 @@
 package fr.corenting.traficparis.ui.main
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,23 +8,25 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import fr.corenting.traficparis.R
-import kotlinx.android.synthetic.main.list_item.view.*
 import fr.corenting.traficparis.models.ListItem
 import fr.corenting.traficparis.models.ListTitle
 import fr.corenting.traficparis.models.TitleType
 import fr.corenting.traficparis.utils.DrawableUtils
+import kotlinx.android.synthetic.main.list_item.view.*
 import kotlinx.android.synthetic.main.list_title.view.*
 
 
-class MainAdapter(private val context: Context) :
+class MainAdapter :
     ListAdapter<Any, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<Any>() {
+
+        @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
             if (oldItem is ListItem && newItem is ListItem) {
                 return oldItem == newItem
             }
 
             if (oldItem is ListTitle && newItem is ListTitle) {
-                return oldItem == newItem
+                return false
             }
 
             return false
@@ -78,7 +80,8 @@ class MainAdapter(private val context: Context) :
     }
 
     private fun bindItemHolder(itemView: View, currentResult: ListItem) {
-        itemView.titleTextView.text = context.getString(
+        val currentContext = itemView.context
+        itemView.titleTextView.text = currentContext.getString(
             R.string.line_title, currentResult.lineName,
             currentResult.title
         )
@@ -86,7 +89,7 @@ class MainAdapter(private val context: Context) :
 
         // Drawable
         val drawable = DrawableUtils.getDrawableForLine(
-            context, currentResult.type,
+            currentContext, currentResult.type,
             currentResult.lineName
         )
         if (drawable == null) {
@@ -98,10 +101,12 @@ class MainAdapter(private val context: Context) :
     }
 
     private fun bindTitleHolder(itemView: View, currentResult: ListTitle) {
+        val currentContext = itemView.context
+
         val title: String = when (currentResult.title) {
-            TitleType.OK -> context.getString(R.string.normal_traffic)
-            TitleType.WORK -> context.getString(R.string.work)
-            else -> context.getString(R.string.issues)
+            TitleType.OK -> currentContext.getString(R.string.normal_traffic)
+            TitleType.WORK -> currentContext.getString(R.string.work)
+            else -> currentContext.getString(R.string.issues)
         }
         itemView.headerTitleTextView.text = title
     }
