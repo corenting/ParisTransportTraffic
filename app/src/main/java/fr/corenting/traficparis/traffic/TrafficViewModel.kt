@@ -1,15 +1,14 @@
 package fr.corenting.traficparis.traffic
 
-import androidx.lifecycle.*
-import fr.corenting.traficparis.models.ApiResponseResults
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import kotlinx.coroutines.Dispatchers
 
 
 class TrafficViewModel : ViewModel() {
-    private lateinit var results: LiveData<ApiResponseResults>
+    private val repository: TrafficRepository = TrafficRepository()
 
-
-    fun getTraffic(): LiveData<ApiResponseResults> {
-        results = TrafficRepository.getTraffic()
-        return this.results
+    fun getTraffic() = liveData(Dispatchers.IO) {
+        emit(repository.getTraffic())
     }
 }

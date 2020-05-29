@@ -1,12 +1,11 @@
 package fr.corenting.traficparis.traffic
 
-import retrofit2.Call
-import retrofit2.http.GET
 import fr.corenting.traficparis.models.ApiResponse
+import retrofit2.http.GET
 
 
 interface TrafficApiService {
 
     @GET("traffic")
-    fun getTraffic(): Call<ApiResponse>
+    suspend fun getTraffic(): ApiResponse
 }

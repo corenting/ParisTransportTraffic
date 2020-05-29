@@ -13,7 +13,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.itemanimators.SlideInOutLeftAnimator
 import fr.corenting.traficparis.BuildConfig
 import fr.corenting.traficparis.R
-import fr.corenting.traficparis.models.ApiResponseResults
+import fr.corenting.traficparis.models.ApiResponse
+import fr.corenting.traficparis.models.RequestResult
 import fr.corenting.traficparis.traffic.TrafficViewModel
 import fr.corenting.traficparis.utils.MiscUtils
 import fr.corenting.traficparis.utils.PersistenceUtils
@@ -28,7 +29,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
     }
 
     private val viewModel: TrafficViewModel by activityViewModels()
-    private lateinit var observer: Observer<ApiResponseResults>
+    private lateinit var observer: Observer<RequestResult<ApiResponse>>
 
     private var displayRer = true
     private var displayMetro = true
@@ -46,22 +47,22 @@ class MainFragment : androidx.fragment.app.Fragment() {
                 displayErrorMessage()
             } else {
                 // Show error message
-                if (it.message == "Something went wrong") {
+                if (it.data == null || it.error != null || it.data.result.message == "Something went wrong") {
                     displayErrorMessage()
-                }
+                } else {
+                    endLoading(empty = false)
 
-                endLoading(empty = false)
+                    // Apply filter
+                    val filteredResults = ResultsUtils.filterResults(
+                        it.data.result, displayRer, displayMetro, displayTram
+                    )
 
-                // Apply filter
-                val filteredResults = ResultsUtils.filterResults(
-                    it, displayRer, displayMetro, displayTram
-                )
-
-                try {
-                    (recyclerView.adapter as MainAdapter)
-                        .submitList(ResultsUtils.convertApiResultsToListItems(filteredResults))
-                } catch (pass: IllegalArgumentException) {
-                    displayErrorMessage()
+                    try {
+                        (recyclerView.adapter as MainAdapter)
+                            .submitList(ResultsUtils.convertApiResultsToListItems(filteredResults))
+                    } catch (pass: IllegalArgumentException) {
+                        displayErrorMessage()
+                    }
                 }
             }
         }

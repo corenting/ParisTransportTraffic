@@ -1,17 +1,12 @@
 package fr.corenting.traficparis.traffic
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import fr.corenting.traficparis.models.ApiResponse
-import fr.corenting.traficparis.models.ApiResponseResults
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import fr.corenting.traficparis.models.RequestResult
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-object TrafficRepository {
+class TrafficRepository {
 
     private val apiService: TrafficApiService = Retrofit.Builder()
         .baseUrl("https://api-ratp.pierre-grimaud.fr/v4/")
@@ -19,23 +14,11 @@ object TrafficRepository {
         .build()
         .create(TrafficApiService::class.java)
 
-    fun getTraffic(): LiveData<ApiResponseResults> {
-        val data = MutableLiveData<ApiResponseResults>()
-        apiService.getTraffic()
-            .enqueue(object : Callback<ApiResponse> {
-                override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                    if (response.isSuccessful && response.body() != null) {
-                        val res = response.body()!!.result
-                        data.value = res
-                    } else {
-                        data.value = null
-                    }
-                }
-
-                override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                    data.value = null
-                }
-            })
-        return data
+    suspend fun getTraffic(): RequestResult<ApiResponse> {
+        return try {
+            RequestResult(data = apiService.getTraffic(), error = null)
+        } catch (t: Throwable) {
+            RequestResult(data = null, error = t)
+        }
     }
 }
