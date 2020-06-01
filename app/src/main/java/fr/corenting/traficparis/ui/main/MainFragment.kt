@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -29,7 +30,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
     }
 
     private val viewModel: TrafficViewModel by activityViewModels()
-    private lateinit var observer: Observer<RequestResult<ApiResponse>>
+    private lateinit var observer: Observer<MutableLiveData<RequestResult<ApiResponse>>>
 
     private var displayRer = true
     private var displayMetro = true
@@ -42,19 +43,20 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
         // Observable for refresh
         observer = Observer {
-            if (it == null) {
+            val result = it.value
+            if (result == null) {
                 endLoading(empty = true)
                 displayErrorMessage()
             } else {
                 // Show error message
-                if (it.data == null || it.error != null || it.data.result.message == "Something went wrong") {
+                if (result.data == null || result.error != null || result.data.result.message == "Something went wrong") {
                     displayErrorMessage()
                 } else {
                     endLoading(empty = false)
 
                     // Apply filter
                     val filteredResults = ResultsUtils.filterResults(
-                        it.data.result, displayRer, displayMetro, displayTram
+                        result.data.result, displayRer, displayMetro, displayTram
                     )
 
                     try {
@@ -120,13 +122,20 @@ class MainFragment : androidx.fragment.app.Fragment() {
         // Add listeners
         val listener = {
             startLoading()
-            viewModel.getTraffic().observe(viewLifecycleOwner, observer)
+            viewModel.getUpdatedTraffic().observe(viewLifecycleOwner, observer)
         }
         emptySwipeRefreshLayout.setOnRefreshListener(listener)
         swipeRefreshLayout.setOnRefreshListener(listener)
 
         // Load data
-        viewModel.getTraffic().observe(viewLifecycleOwner, observer)
+        when (savedInstanceState) {
+            null -> {
+                viewModel.getUpdatedTraffic().observe(viewLifecycleOwner, observer)
+            }
+            else -> {
+                viewModel.getTraffic().observe(viewLifecycleOwner, observer)
+            }
+        }
     }
 
     private fun displayErrorMessage() {
