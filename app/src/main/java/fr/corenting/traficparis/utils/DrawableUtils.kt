@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import fr.corenting.traficparis.models.TransportType
-import java.lang.Exception
 import java.util.*
+
 
 object DrawableUtils {
     fun getDrawableForLine(context: Context, lineType: TransportType, lineName: String): Drawable? {
@@ -20,7 +20,7 @@ object DrawableUtils {
         try {
             val drawable = ContextCompat.getDrawable(
                 context,
-                getDrawableResIdByName(context, name)
+                getLineDrawable(context, name)
             )
 
             if (drawable != null) {
@@ -37,15 +37,13 @@ object DrawableUtils {
 
             return ContextCompat.getDrawable(
                 context,
-                getDrawableResIdByName(context, basicName)
+                getLineDrawable(context, basicName)
             )
         }
     }
 
-    private fun getDrawableResIdByName(context: Context, name: String): Int {
-        return context.resources.getIdentifier(
-            name.toLowerCase(Locale.ROOT),
-            "drawable", context.packageName
-        )
+    private fun getLineDrawable(context: Context, line_name: String): Int {
+        val resName = String.format("line_%s", line_name.toLowerCase(Locale.ROOT))
+        return context.resources.getIdentifier(resName, "drawable", context.packageName)
     }
 }
