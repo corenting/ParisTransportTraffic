@@ -33,8 +33,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/logoImageView"
             app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +47,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/logoImageView"
