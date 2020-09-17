@@ -10,8 +10,8 @@ android {
         applicationId "fr.corenting.traficparis"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 21
-        versionName "4.3.4"
+        versionCode 22
+        versionName "4.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
