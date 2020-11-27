@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import fr.corenting.traficparis.R
+import fr.corenting.traficparis.databinding.ListItemBinding
+import fr.corenting.traficparis.databinding.ListTitleBinding
 import fr.corenting.traficparis.models.ListItem
 import fr.corenting.traficparis.models.ListTitle
 import fr.corenting.traficparis.models.TitleType
 import fr.corenting.traficparis.utils.DrawableUtils
-import kotlinx.android.synthetic.main.list_item.view.*
-import kotlinx.android.synthetic.main.list_title.view.*
 
 
 class MainAdapter :
@@ -72,43 +72,46 @@ class MainAdapter :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentResult = getItem(position)
+
         if (getItemViewType(position) == TYPE_ITEM) {
-            bindItemHolder(holder.itemView, currentResult as ListItem)
+            val itemViewBinding = ListItemBinding.bind(holder.itemView)
+            bindItemHolder(itemViewBinding, currentResult as ListItem)
         } else {
-            bindTitleHolder(holder.itemView, currentResult as ListTitle)
+            val itemViewBinding = ListTitleBinding.bind(holder.itemView)
+            bindTitleHolder(itemViewBinding, currentResult as ListTitle)
         }
     }
 
-    private fun bindItemHolder(itemView: View, currentResult: ListItem) {
-        val currentContext = itemView.context
-        itemView.titleTextView.text = currentContext.getString(
+    private fun bindItemHolder(itemViewBinding: ListItemBinding, currentResult: ListItem) {
+        val context = itemViewBinding.root.context
+
+        itemViewBinding.titleTextView.text = context.getString(
             R.string.line_title, currentResult.lineName,
             currentResult.title
         )
-        itemView.subtitleTextView.text = currentResult.stateDescription
+        itemViewBinding.subtitleTextView.text = currentResult.stateDescription
 
         // Drawable
         val drawable = DrawableUtils.getDrawableForLine(
-            currentContext, currentResult.type,
+            context, currentResult.type,
             currentResult.lineName
         )
         if (drawable == null) {
-            itemView.logoImageView.visibility = View.GONE
+            itemViewBinding.logoImageView.visibility = View.GONE
         } else {
-            itemView.logoImageView.visibility = View.VISIBLE
-            itemView.logoImageView.setImageDrawable(drawable)
+            itemViewBinding.logoImageView.visibility = View.VISIBLE
+            itemViewBinding.logoImageView.setImageDrawable(drawable)
         }
     }
 
-    private fun bindTitleHolder(itemView: View, currentResult: ListTitle) {
-        val currentContext = itemView.context
-
+    private fun bindTitleHolder(itemViewBinding: ListTitleBinding, currentResult: ListTitle) {
+        val context = itemViewBinding.root.context
         val title: String = when (currentResult.title) {
-            TitleType.OK -> currentContext.getString(R.string.normal_traffic)
-            TitleType.WORK -> currentContext.getString(R.string.work)
-            else -> currentContext.getString(R.string.issues)
+            TitleType.OK -> context.getString(R.string.normal_traffic)
+            TitleType.WORK -> context.getString(R.string.work)
+            else -> context.getString(R.string.issues)
         }
-        itemView.headerTitleTextView.text = title
+        itemViewBinding.headerTitleTextView.text = title
     }
 
     class ItemViewHolder(itemView: View) :

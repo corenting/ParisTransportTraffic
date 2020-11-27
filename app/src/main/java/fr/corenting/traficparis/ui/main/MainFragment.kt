@@ -14,13 +14,13 @@ import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.itemanimators.SlideInOutLeftAnimator
 import fr.corenting.traficparis.BuildConfig
 import fr.corenting.traficparis.R
+import fr.corenting.traficparis.databinding.MainFragmentBinding
 import fr.corenting.traficparis.models.ApiResponse
 import fr.corenting.traficparis.models.RequestResult
 import fr.corenting.traficparis.traffic.TrafficViewModel
 import fr.corenting.traficparis.utils.MiscUtils
 import fr.corenting.traficparis.utils.PersistenceUtils
 import fr.corenting.traficparis.utils.ResultsUtils
-import kotlinx.android.synthetic.main.main_fragment.*
 
 
 class MainFragment : androidx.fragment.app.Fragment() {
@@ -35,6 +35,10 @@ class MainFragment : androidx.fragment.app.Fragment() {
     private var displayRer = true
     private var displayMetro = true
     private var displayTram = true
+
+    private var _binding: MainFragmentBinding? = null
+    private val binding get() = _binding!!
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +64,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
                     )
 
                     try {
-                        (recyclerView.adapter as MainAdapter)
+                        (binding.recyclerView.adapter as MainAdapter)
                             .submitList(ResultsUtils.convertApiResultsToListItems(filteredResults))
                     } catch (pass: IllegalArgumentException) {
                         displayErrorMessage()
@@ -75,7 +79,8 @@ class MainFragment : androidx.fragment.app.Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        _binding = MainFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -113,9 +118,9 @@ class MainFragment : androidx.fragment.app.Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Init recyclerview
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = MainAdapter()
-        recyclerView.itemAnimator = SlideInOutLeftAnimator(recyclerView)
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter = MainAdapter()
+        binding.recyclerView.itemAnimator = SlideInOutLeftAnimator(binding.recyclerView)
 
         startLoading()
 
@@ -124,8 +129,8 @@ class MainFragment : androidx.fragment.app.Fragment() {
             startLoading()
             viewModel.getUpdatedTraffic().observe(viewLifecycleOwner, observer)
         }
-        emptySwipeRefreshLayout.setOnRefreshListener(listener)
-        swipeRefreshLayout.setOnRefreshListener(listener)
+        binding.emptySwipeRefreshLayout.setOnRefreshListener(listener)
+        binding.swipeRefreshLayout.setOnRefreshListener(listener)
 
         // Load data
         when (savedInstanceState) {
@@ -138,9 +143,14 @@ class MainFragment : androidx.fragment.app.Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun displayErrorMessage() {
         Snackbar.make(
-            container, getString(R.string.download_error),
+            binding.container, getString(R.string.download_error),
             Snackbar.LENGTH_SHORT
         ).show()
     }
@@ -180,24 +190,24 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
     private fun endLoading(empty: Boolean) {
         if (empty) {
-            (recyclerView.adapter as MainAdapter).submitList(emptyList())
+            (binding.recyclerView.adapter as MainAdapter).submitList(emptyList())
         }
 
-        emptySwipeRefreshLayout.post {
-            emptySwipeRefreshLayout.visibility = if (empty) View.VISIBLE else View.GONE
-            emptySwipeRefreshLayout.isRefreshing = false
+        binding.emptySwipeRefreshLayout.post {
+            binding.emptySwipeRefreshLayout.visibility = if (empty) View.VISIBLE else View.GONE
+            binding.emptySwipeRefreshLayout.isRefreshing = false
         }
-        swipeRefreshLayout.post {
-            swipeRefreshLayout.visibility = if (empty) View.GONE else View.VISIBLE
-            swipeRefreshLayout.isRefreshing = false
+        binding.swipeRefreshLayout.post {
+            binding.swipeRefreshLayout.visibility = if (empty) View.GONE else View.VISIBLE
+            binding.swipeRefreshLayout.isRefreshing = false
         }
     }
 
     private fun startLoading() {
-        emptySwipeRefreshLayout.post { emptySwipeRefreshLayout.visibility = View.GONE }
-        swipeRefreshLayout.post {
-            swipeRefreshLayout.visibility = View.VISIBLE
-            swipeRefreshLayout.isRefreshing = true
+        binding.emptySwipeRefreshLayout.post { binding.emptySwipeRefreshLayout.visibility = View.GONE }
+        binding.swipeRefreshLayout.post {
+            binding.swipeRefreshLayout.visibility = View.VISIBLE
+            binding.swipeRefreshLayout.isRefreshing = true
         }
     }
 }
