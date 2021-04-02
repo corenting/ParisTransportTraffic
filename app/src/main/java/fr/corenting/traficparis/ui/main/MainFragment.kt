@@ -157,7 +157,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
     private fun changeDisplayedCategories(filterId: Int, newValue: Boolean) {
         when (filterId) {
-            R.id.filter_rer -> displayRer = newValuec
+            R.id.filter_rer -> displayRer = newValue
             R.id.filter_metro -> displayMetro = newValue
             R.id.filter_tram -> displayTram = newValue
         }
