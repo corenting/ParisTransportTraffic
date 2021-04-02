@@ -3,7 +3,7 @@ package fr.corenting.traficparis.traffic
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import fr.corenting.traficparis.models.ApiResponse
+import fr.corenting.traficparis.models.api.ApiResponse
 import fr.corenting.traficparis.models.RequestResult
 import kotlinx.coroutines.Dispatchers
 

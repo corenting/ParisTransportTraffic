@@ -1,4 +1,4 @@
-package fr.corenting.traficparis.models
+package fr.corenting.traficparis.models.api
 
 data class ApiResponseResults(
     val message: String?,

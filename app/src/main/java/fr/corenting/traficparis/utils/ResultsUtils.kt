@@ -1,6 +1,10 @@
 package fr.corenting.traficparis.utils
 
 import fr.corenting.traficparis.models.*
+import fr.corenting.traficparis.models.api.ApiResponseItem
+import fr.corenting.traficparis.models.api.ApiResponseResults
+import fr.corenting.traficparis.models.list.ListItem
+import fr.corenting.traficparis.models.list.ListTitle
 
 object ResultsUtils {
 

@@ -1,6 +1,6 @@
 package fr.corenting.traficparis.traffic
 
-import fr.corenting.traficparis.models.ApiResponse
+import fr.corenting.traficparis.models.api.ApiResponse
 import fr.corenting.traficparis.models.RequestResult
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -15,7 +15,7 @@ import com.mikepenz.itemanimators.SlideInOutLeftAnimator
 import fr.corenting.traficparis.BuildConfig
 import fr.corenting.traficparis.R
 import fr.corenting.traficparis.databinding.MainFragmentBinding
-import fr.corenting.traficparis.models.ApiResponse
+import fr.corenting.traficparis.models.api.ApiResponse
 import fr.corenting.traficparis.models.RequestResult
 import fr.corenting.traficparis.traffic.TrafficViewModel
 import fr.corenting.traficparis.utils.MiscUtils
@@ -157,7 +157,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
     private fun changeDisplayedCategories(filterId: Int, newValue: Boolean) {
         when (filterId) {
-            R.id.filter_rer -> displayRer = newValue
+            R.id.filter_rer -> displayRer = newValuec
             R.id.filter_metro -> displayMetro = newValue
             R.id.filter_tram -> displayTram = newValue
         }

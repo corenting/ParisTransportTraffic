@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.corenting.traficparis.R
 import fr.corenting.traficparis.databinding.ListItemBinding
 import fr.corenting.traficparis.databinding.ListTitleBinding
-import fr.corenting.traficparis.models.ListItem
-import fr.corenting.traficparis.models.ListTitle
+import fr.corenting.traficparis.models.list.ListItem
+import fr.corenting.traficparis.models.list.ListTitle
 import fr.corenting.traficparis.models.TitleType
 import fr.corenting.traficparis.utils.DrawableUtils
 

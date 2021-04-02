@@ -1,6 +1,6 @@
 package fr.corenting.traficparis.traffic
 
-import fr.corenting.traficparis.models.ApiResponse
+import fr.corenting.traficparis.models.api.ApiResponse
 import retrofit2.http.GET
 
 
