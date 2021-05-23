@@ -7,7 +7,6 @@ import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -15,8 +14,9 @@ import com.mikepenz.itemanimators.SlideInOutLeftAnimator
 import fr.corenting.traficparis.BuildConfig
 import fr.corenting.traficparis.R
 import fr.corenting.traficparis.databinding.MainFragmentBinding
-import fr.corenting.traficparis.models.api.ApiResponse
 import fr.corenting.traficparis.models.RequestResult
+import fr.corenting.traficparis.models.api.ApiResponse
+import fr.corenting.traficparis.models.api.ApiResponseResults
 import fr.corenting.traficparis.traffic.TrafficViewModel
 import fr.corenting.traficparis.utils.MiscUtils
 import fr.corenting.traficparis.utils.PersistenceUtils
@@ -30,7 +30,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
     }
 
     private val viewModel: TrafficViewModel by activityViewModels()
-    private lateinit var observer: Observer<MutableLiveData<RequestResult<ApiResponse>>>
+    private lateinit var observer: Observer<RequestResult<ApiResponse>>
 
     private var displayRer = true
     private var displayMetro = true
@@ -40,16 +40,13 @@ class MainFragment : androidx.fragment.app.Fragment() {
     private val binding get() = _binding!!
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
         // Observable for refresh
-        observer = Observer {
-            val result = it.value
+        observer = Observer { result ->
             if (result == null) {
-                endLoading(empty = true)
                 displayErrorMessage()
             } else {
                 // Show error message
@@ -59,16 +56,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
                     endLoading(empty = false)
 
                     // Apply filter
-                    val filteredResults = ResultsUtils.filterResults(
-                        result.data.result, displayRer, displayMetro, displayTram
-                    )
-
-                    try {
-                        (binding.recyclerView.adapter as MainAdapter)
-                            .submitList(ResultsUtils.convertApiResultsToListItems(filteredResults))
-                    } catch (pass: IllegalArgumentException) {
-                        displayErrorMessage()
-                    }
+                    setDisplayedContent(result.data.result)
                 }
             }
         }
@@ -127,20 +115,13 @@ class MainFragment : androidx.fragment.app.Fragment() {
         // Add listeners
         val listener = {
             startLoading()
-            viewModel.getUpdatedTraffic().observe(viewLifecycleOwner, observer)
+            viewModel.getLatestTraffic()
         }
         binding.emptySwipeRefreshLayout.setOnRefreshListener(listener)
         binding.swipeRefreshLayout.setOnRefreshListener(listener)
 
-        // Load data
-        when (savedInstanceState) {
-            null -> {
-                viewModel.getUpdatedTraffic().observe(viewLifecycleOwner, observer)
-            }
-            else -> {
-                viewModel.getTraffic().observe(viewLifecycleOwner, observer)
-            }
-        }
+        // Observe
+        viewModel.getTraffic().observe(viewLifecycleOwner, observer)
     }
 
     override fun onDestroyView() {
@@ -149,10 +130,24 @@ class MainFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun displayErrorMessage() {
+        endLoading(empty = true)
         Snackbar.make(
             binding.container, getString(R.string.download_error),
             Snackbar.LENGTH_SHORT
         ).show()
+    }
+
+    private fun setDisplayedContent(results: ApiResponseResults) {
+        val filteredResults = ResultsUtils.filterResults(
+            results, displayRer, displayMetro, displayTram
+        )
+
+        try {
+            (binding.recyclerView.adapter as MainAdapter)
+                .submitList(ResultsUtils.convertApiResultsToListItems(filteredResults))
+        } catch (pass: IllegalArgumentException) {
+            displayErrorMessage()
+        }
     }
 
     private fun changeDisplayedCategories(filterId: Int, newValue: Boolean) {
@@ -162,9 +157,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
             R.id.filter_tram -> displayTram = newValue
         }
 
-        // Refresh the display
-        startLoading()
-        viewModel.getTraffic().observe(this, observer)
+        viewModel.getTraffic().value?.data?.result?.let { setDisplayedContent(it) }
     }
 
     private fun showAboutPopup() {
@@ -204,7 +197,9 @@ class MainFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun startLoading() {
-        binding.emptySwipeRefreshLayout.post { binding.emptySwipeRefreshLayout.visibility = View.GONE }
+        binding.emptySwipeRefreshLayout.post {
+            binding.emptySwipeRefreshLayout.visibility = View.GONE
+        }
         binding.swipeRefreshLayout.post {
             binding.swipeRefreshLayout.visibility = View.VISIBLE
             binding.swipeRefreshLayout.isRefreshing = true
