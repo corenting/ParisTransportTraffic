@@ -69,7 +69,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.7'
 
     // Tests
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test:runner:1.4.0'
     testImplementation "org.robolectric:robolectric:4.5.1"
     testImplementation 'androidx.test:core:1.4.0'
