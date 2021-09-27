@@ -9,8 +9,8 @@ android {
         applicationId "fr.corenting.traficparis"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 24
-        versionName "4.6"
+        versionCode 25
+        versionName "4.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -55,7 +55,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'com.google.android.material:material:1.4.0'
 
