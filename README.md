@@ -1,5 +1,6 @@
 # Paris Transport Traffic
 
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/corenting/ParisTransportTraffic/Android%20CI/master)
 [![GitHub release](https://img.shields.io/github/release/corenting/ParisTransportTraffic.svg)](https://github.com/corenting/ParisTransportTraffic/releases)
 [![GitHub license](https://img.shields.io/github/license/corenting/ParisTransportTraffic.svg)](https://github.com/corenting/ParisTransportTraffic/blob/master/LICENSE)
 
