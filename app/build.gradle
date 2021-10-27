@@ -24,6 +24,7 @@ android {
         useIR = true
     }
 
+    // For tests
     testOptions {
         unitTests.includeAndroidResources = true
     }
@@ -49,12 +50,12 @@ dependencies {
 
     // AndroidX
     def lifecycleVersion = '2.3.1'
-    implementation "androidx.activity:activity-ktx:1.3.1"
-    implementation "androidx.fragment:fragment-ktx:1.3.6"
+    implementation 'androidx.activity:activity-ktx:1.3.1'
+    implementation 'androidx.fragment:fragment-ktx:1.3.6'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'com.google.android.material:material:1.4.0'
@@ -65,14 +66,12 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
 
     // Other
-    implementation "com.mikepenz:itemanimators:1.1.0"
+    implementation 'com.mikepenz:itemanimators:1.1.0'
     implementation 'com.google.code.gson:gson:2.8.8'
 
     // Tests
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    testImplementation "org.robolectric:robolectric:4.6.1"
     testImplementation 'androidx.test:core:1.4.0'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:3.12.4'
+    testImplementation 'org.mockito:mockito-core:4.0.0'
+    testImplementation 'org.robolectric:robolectric:4.6.1'
 }
