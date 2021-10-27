@@ -9,11 +9,11 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.P])
+@Config(sdk = [Build.VERSION_CODES.Q])
 class MiscUtilsTest {
     @Test
     fun htmlToSpanned() {
-        val ret = MiscUtils.htmlToSpanned ("<p>Test</p")
+        val ret = MiscUtils.htmlToSpanned("<p>Test</p")
         assertNotNull(ret)
         assertEquals(ret.toString(), "Test\n\n")
     }
