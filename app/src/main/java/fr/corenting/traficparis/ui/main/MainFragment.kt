@@ -6,6 +6,7 @@ import android.text.method.LinkMovementMethod
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +24,7 @@ import fr.corenting.traficparis.utils.PersistenceUtils
 import fr.corenting.traficparis.utils.ResultsUtils
 
 
-class MainFragment : androidx.fragment.app.Fragment() {
+class MainFragment : Fragment(R.layout.main_fragment) {
 
     companion object {
         fun newInstance() = MainFragment()
@@ -42,6 +43,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setHasOptionsMenu(true)
 
         // Observable for refresh

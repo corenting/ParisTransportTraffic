@@ -12,38 +12,26 @@ object DrawableUtils {
 
         // First try to get specific line logo
         val name: String = when (lineType) {
-            TransportType.METRO -> "m$lineName"
-            TransportType.RER -> "rer$lineName"
-            TransportType.TRAM -> "t$lineName"
+            TransportType.METRO -> "metro_$lineName"
+            TransportType.RER -> "rer_$lineName"
+            TransportType.TRAM -> "tram_t$lineName"
         }
 
-        try {
-            val drawable = ContextCompat.getDrawable(
-                context,
-                getLineDrawable(context, name)
-            )
+        val identifier = getLineDrawable(context, name)
 
-            if (drawable != null) {
-                return drawable
-            } else {
-                throw Exception("No drawable found")
-            }
-        } catch (exception: Exception) {
-            val basicName: String = when (lineType) {
-                TransportType.METRO -> "metro"
-                TransportType.RER -> "rer"
-                TransportType.TRAM -> "tram"
-            }
-
-            return ContextCompat.getDrawable(
-                context,
-                getLineDrawable(context, basicName)
-            )
+        // Not found case
+        if (identifier == 0) {
+            return null
         }
+
+        return ContextCompat.getDrawable(
+            context,
+            getLineDrawable(context, name)
+        )
     }
 
     private fun getLineDrawable(context: Context, line_name: String): Int {
-        val resName = String.format("line_%s", line_name.lowercase(Locale.ROOT))
+        val resName = String.format("%s", line_name.lowercase(Locale.ROOT))
         return context.resources.getIdentifier(resName, "drawable", context.packageName)
     }
 }

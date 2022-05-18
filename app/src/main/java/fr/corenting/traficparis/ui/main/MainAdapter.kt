@@ -97,7 +97,7 @@ class MainAdapter :
             currentResult.lineName
         )
         if (drawable == null) {
-            itemViewBinding.logoImageView.visibility = View.GONE
+            itemViewBinding.logoImageView.visibility = View.INVISIBLE
         } else {
             itemViewBinding.logoImageView.visibility = View.VISIBLE
             itemViewBinding.logoImageView.setImageDrawable(drawable)

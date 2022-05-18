@@ -3,8 +3,6 @@ This app allows you to consult various traffic informations for different RATP/S
 • RER
 • Tramway
 <br />
-<b>Warning:</b> this application is not official and  is not endorsed or approved by the RATP or the SNCF.
+<b>This application is not official and\n is not endorsed or approved by Île-de-France Mobilités, RATP, SNCF or any other transport network company.</b>
 <br />
-The pictograms of the metro and RER lines belong to the RATP, and are subject to the RATP licence: https://data.ratp.fr/page/cgu_ratp/
-<br />
-M and T are RATP brands. Subject to availability, RATP\'s logos can be downloaded and used free of charge from the http://data.ratp.fr  website under the conditions referred to therein.
+The pictograms of the lines are from Île-de-France Mobilités (https://data.iledefrance-mobilites.fr/explore/dataset/emplacement-des-gares-idf/information/) and are under the "Licence Ouverte v2.0 (Etalab)" license (https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf).
