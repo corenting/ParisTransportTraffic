@@ -6,8 +6,11 @@ import android.text.method.LinkMovementMethod
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -43,9 +46,7 @@ class MainFragment : Fragment(R.layout.main_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setHasOptionsMenu(true)
-
+        
         // Observable for refresh
         observer = Observer { result ->
             if (result == null) {
@@ -62,6 +63,48 @@ class MainFragment : Fragment(R.layout.main_fragment) {
                 }
             }
         }
+
+        // Setup menu
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.fragment_menu, menu)
+
+                // Update menu values for filters from shared prefs
+                if (context != null) {
+                    displayRer = PersistenceUtils.getDisplayRerValue(activity as Context)
+                    displayMetro = PersistenceUtils.getDisplayMetroValue(activity as Context)
+                    displayTram = PersistenceUtils.getDisplayTramValue(activity as Context)
+
+                    val subMenu = menu.getItem(0)?.subMenu
+                    subMenu?.getItem(0)?.isChecked = displayRer
+                    subMenu?.getItem(1)?.isChecked = displayMetro
+                    subMenu?.getItem(2)?.isChecked = displayTram
+
+                }
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    R.id.about_menu -> {
+                        showAboutPopup()
+                        return true
+                    }
+                    R.id.filter_rer, R.id.filter_metro, R.id.filter_tram -> {
+                        menuItem.isChecked = !menuItem.isChecked
+                        PersistenceUtils.setValue(
+                            activity as Context,
+                            menuItem.itemId,
+                            menuItem.isChecked
+                        )
+                        changeDisplayedCategories(menuItem.itemId, menuItem.isChecked)
+                        return true
+                    }
+                }
+
+                return false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onCreateView(
@@ -71,37 +114,6 @@ class MainFragment : Fragment(R.layout.main_fragment) {
     ): View {
         _binding = MainFragmentBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.fragment_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-
-        // Update menu values for filters from shared prefs
-        if (context != null) {
-            displayRer = PersistenceUtils.getDisplayRerValue(activity as Context)
-            displayMetro = PersistenceUtils.getDisplayMetroValue(activity as Context)
-            displayTram = PersistenceUtils.getDisplayTramValue(activity as Context)
-
-            val subMenu = menu.getItem(0)?.subMenu
-            subMenu?.getItem(0)?.isChecked = displayRer
-            subMenu?.getItem(1)?.isChecked = displayMetro
-            subMenu?.getItem(2)?.isChecked = displayTram
-
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.about_menu -> showAboutPopup()
-            R.id.filter_rer, R.id.filter_metro, R.id.filter_tram -> {
-                item.isChecked = !item.isChecked
-                PersistenceUtils.setValue(activity as Context, item.itemId, item.isChecked)
-                changeDisplayedCategories(item.itemId, item.isChecked)
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
