@@ -17,9 +17,13 @@
                     android:checked="true"
                     android:title="@string/metro" />
                 <item
-                    android:id="@+id/filter_tram"
+                    android:id="@+id/filter_tramway"
                     android:checked="true"
-                    android:title="@string/tram" />
+                    android:title="@string/tramway" />
+                <item
+                    android:id="@+id/filter_transilien"
+                    android:checked="true"
+                    android:title="@string/transilien" />
             </group>
         </menu>
     </item>

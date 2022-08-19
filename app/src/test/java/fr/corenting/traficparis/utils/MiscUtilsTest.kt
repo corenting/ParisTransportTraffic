@@ -13,8 +13,8 @@ import org.robolectric.annotation.Config
 class MiscUtilsTest {
     @Test
     fun htmlToSpanned() {
-        val ret = MiscUtils.htmlToSpanned("<p>Test</p")
+        val ret = MiscUtils.htmlToSpanned("<p>Test</p>")
         assertNotNull(ret)
-        assertEquals(ret.toString(), "Test\n\n")
+        assertEquals(ret.toString(), "Test\n")
     }
 }

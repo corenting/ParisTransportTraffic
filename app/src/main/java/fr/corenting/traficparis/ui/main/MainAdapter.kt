@@ -1,6 +1,9 @@
 package fr.corenting.traficparis.ui.main
 
 import android.annotation.SuppressLint
+import android.os.Build
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,34 +13,43 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.corenting.traficparis.R
 import fr.corenting.traficparis.databinding.ListItemBinding
 import fr.corenting.traficparis.databinding.ListTitleBinding
-import fr.corenting.traficparis.models.list.ListItem
-import fr.corenting.traficparis.models.list.ListTitle
-import fr.corenting.traficparis.models.TitleType
+import fr.corenting.traficparis.models.LineState
+import fr.corenting.traficparis.models.list.ListLineItem
+import fr.corenting.traficparis.models.list.ListTitleItem
+import fr.corenting.traficparis.models.list.ListItemInterface
 import fr.corenting.traficparis.utils.DrawableUtils
+import fr.corenting.traficparis.utils.MiscUtils.htmlToSpanned
 
 
 class MainAdapter :
-    ListAdapter<Any, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<Any>() {
+    ListAdapter<ListItemInterface, RecyclerView.ViewHolder>(object :
+        DiffUtil.ItemCallback<ListItemInterface>() {
 
         @SuppressLint("DiffUtilEquals")
-        override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
-            if (oldItem is ListItem && newItem is ListItem) {
+        override fun areContentsTheSame(
+            oldItem: ListItemInterface,
+            newItem: ListItemInterface
+        ): Boolean {
+            if (oldItem is ListLineItem && newItem is ListLineItem) {
                 return oldItem == newItem
             }
 
-            if (oldItem is ListTitle && newItem is ListTitle) {
+            if (oldItem is ListTitleItem && newItem is ListTitleItem) {
                 return false
             }
 
             return false
         }
 
-        override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
-            if (oldItem is ListItem && newItem is ListItem) {
-                return oldItem.type == newItem.type && oldItem.lineName == newItem.lineName
+        override fun areItemsTheSame(
+            oldItem: ListItemInterface,
+            newItem: ListItemInterface
+        ): Boolean {
+            if (oldItem is ListLineItem && newItem is ListLineItem) {
+                return oldItem.type == newItem.type && oldItem.name == newItem.name
             }
 
-            if (oldItem is ListTitle && newItem is ListTitle) {
+            if (oldItem is ListTitleItem && newItem is ListTitleItem) {
                 return oldItem.title == newItem.title
             }
 
@@ -64,7 +76,7 @@ class MainAdapter :
 
     override fun getItemViewType(position: Int): Int {
         val currentResult = getItem(position)
-        if (currentResult is ListTitle) {
+        if (currentResult is ListTitleItem) {
             return TYPE_TITLE
         }
         return TYPE_ITEM
@@ -75,26 +87,28 @@ class MainAdapter :
 
         if (getItemViewType(position) == TYPE_ITEM) {
             val itemViewBinding = ListItemBinding.bind(holder.itemView)
-            bindItemHolder(itemViewBinding, currentResult as ListItem)
+            bindItemHolder(itemViewBinding, currentResult as ListLineItem)
         } else {
             val itemViewBinding = ListTitleBinding.bind(holder.itemView)
-            bindTitleHolder(itemViewBinding, currentResult as ListTitle)
+            bindTitleHolder(itemViewBinding, currentResult as ListTitleItem)
         }
     }
 
-    private fun bindItemHolder(itemViewBinding: ListItemBinding, currentResult: ListItem) {
+    private fun bindItemHolder(itemViewBinding: ListItemBinding, currentResult: ListLineItem) {
         val context = itemViewBinding.root.context
 
         itemViewBinding.titleTextView.text = context.getString(
-            R.string.line_title, currentResult.lineName,
+            R.string.line_title, currentResult.name,
             currentResult.title
         )
-        itemViewBinding.subtitleTextView.text = currentResult.stateDescription
+
+        itemViewBinding.messageTextView.text = htmlToSpanned(currentResult.message)
+        itemViewBinding.messageTextView.movementMethod = LinkMovementMethod.getInstance();
 
         // Drawable
         val drawable = DrawableUtils.getDrawableForLine(
             context, currentResult.type,
-            currentResult.lineName
+            currentResult.name
         )
         if (drawable == null) {
             itemViewBinding.logoImageView.visibility = View.INVISIBLE
@@ -104,11 +118,10 @@ class MainAdapter :
         }
     }
 
-    private fun bindTitleHolder(itemViewBinding: ListTitleBinding, currentResult: ListTitle) {
+    private fun bindTitleHolder(itemViewBinding: ListTitleBinding, currentResult: ListTitleItem) {
         val context = itemViewBinding.root.context
         val title: String = when (currentResult.title) {
-            TitleType.OK -> context.getString(R.string.normal_traffic)
-            TitleType.WORK -> context.getString(R.string.work)
+            LineState.WORK -> context.getString(R.string.work)
             else -> context.getString(R.string.issues)
         }
         itemViewBinding.headerTitleTextView.text = title
