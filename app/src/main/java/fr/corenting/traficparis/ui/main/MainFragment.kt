@@ -46,7 +46,7 @@ class MainFragment : Fragment(R.layout.main_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         // Observable for refresh
         observer = Observer { result ->
             if (result == null) {
