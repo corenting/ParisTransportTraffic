@@ -11,23 +11,16 @@ import fr.corenting.traficparis.models.list.ListTitleItem
 object ListUtils {
 
     fun mapAndFilterResults(
-        result: ApiResponse, displayRer: Boolean,
-        displayMetro: Boolean, displayTramway: Boolean, displayTransilien: Boolean
+        result: ApiResponse, displayFilters: Map<LineType, Boolean>
     ): List<ListItemInterface> {
 
         val linesWithWork = filterLinesList(
             mapLines(result.linesWithWork, LineState.WORK),
-            displayRer,
-            displayMetro,
-            displayTramway,
-            displayTransilien
+            displayFilters
         )
         val linesWithIncidents = filterLinesList(
             mapLines(result.linesWithIncidents, LineState.INCIDENT),
-            displayRer,
-            displayMetro,
-            displayTramway,
-            displayTransilien
+            displayFilters
         )
 
         return listOf(ListTitleItem(LineState.INCIDENT)).plus(linesWithIncidents)
@@ -50,34 +43,18 @@ object ListUtils {
     }
 
     private fun filterLinesList(
-        lines: List<ListLineItem>, displayRer: Boolean,
-        displayMetro: Boolean, displayTramway: Boolean, displayTransilien: Boolean
+        lines: List<ListLineItem>, displayFilters: Map<LineType, Boolean>
     ): List<ListItemInterface> {
         val filteredLines: MutableList<ListLineItem> = lines.toMutableList()
 
-        if (!displayMetro) {
-            filteredLines.removeAll { apiResponseItem ->
-                apiResponseItem.type == LineType.METRO
+        for (filter in displayFilters) {
+            if (!filter.value) {
+                filteredLines.removeAll { apiResponseItem ->
+                    apiResponseItem.type == filter.key
+                }
             }
         }
 
-        if (!displayRer) {
-            filteredLines.removeAll { apiResponseItem ->
-                apiResponseItem.type == LineType.RER
-            }
-        }
-
-        if (!displayTramway) {
-            filteredLines.removeAll { apiResponseItem ->
-                apiResponseItem.type == LineType.TRAMWAY
-            }
-        }
-
-        if (!displayTransilien) {
-            filteredLines.removeAll { apiResponseItem ->
-                apiResponseItem.type == LineType.TRANSILIEN
-            }
-        }
         return filteredLines
     }
 }

@@ -1,6 +1,5 @@
 package fr.corenting.traficparis.ui.main
 
-import android.content.Context
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.*
@@ -11,6 +10,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -23,41 +23,27 @@ import fr.corenting.traficparis.models.RequestResult
 import fr.corenting.traficparis.models.api.ApiResponse
 import fr.corenting.traficparis.traffic.TrafficViewModel
 import fr.corenting.traficparis.utils.MiscUtils
-import fr.corenting.traficparis.utils.PersistenceUtils
 import fr.corenting.traficparis.utils.ListUtils
 
 
 class MainFragment : Fragment(R.layout.main_fragment), MenuProvider {
 
     private val viewModel: TrafficViewModel by activityViewModels()
-    private lateinit var observer: Observer<RequestResult<ApiResponse>>
-
-    private var displayRer = true
-    private var displayMetro = true
-    private var displayTramway = true
-    private var displayTransilien = true
+    private lateinit var apiDataObserver: Observer<RequestResult<ApiResponse>>
 
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Observable for refresh
-        observer = Observer { result ->
-            if (result == null) {
+        apiDataObserver = Observer { result ->
+            if (result?.data == null || result.error != null) {
                 displayErrorMessage()
             } else {
-                // Show error message
-                if (result.data == null || result.error != null) {
-                    displayErrorMessage()
-                } else {
-                    endLoading(empty = false)
-
-                    // Apply filter
-                    setDisplayedContent(result.data)
-                }
+                endLoading(empty = false)
+                setDisplayedContent(result.data)
             }
         }
     }
@@ -89,35 +75,24 @@ class MainFragment : Fragment(R.layout.main_fragment), MenuProvider {
         // Add listeners
         val listener = {
             startLoading()
-            viewModel.getLatestTraffic()
+            viewModel.refreshTrafficData()
         }
         binding.emptySwipeRefreshLayout.setOnRefreshListener(listener)
         binding.swipeRefreshLayout.setOnRefreshListener(listener)
 
         // Observe
-        viewModel.getTraffic().observe(viewLifecycleOwner, observer)
+        viewModel.getTrafficData().observe(viewLifecycleOwner, apiDataObserver)
     }
 
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.fragment_menu, menu)
 
-        // Update menu values for filters from shared prefs
-        if (context != null) {
-            displayRer = PersistenceUtils.getDisplayCategoryValue(requireContext(), LineType.RER)
-            displayMetro =
-                PersistenceUtils.getDisplayCategoryValue(requireContext(), LineType.METRO)
-            displayTramway =
-                PersistenceUtils.getDisplayCategoryValue(requireContext(), LineType.TRAMWAY)
-            displayTransilien =
-                PersistenceUtils.getDisplayCategoryValue(requireContext(), LineType.TRANSILIEN)
+        val subMenu = menu.getItem(0)?.subMenu
+        val displayFilters = viewModel.getDisplayFilters()
 
-            val subMenu = menu.getItem(0)?.subMenu
-            subMenu?.getItem(0)?.isChecked = displayRer
-            subMenu?.getItem(1)?.isChecked = displayMetro
-            subMenu?.getItem(2)?.isChecked = displayTramway
-            subMenu?.getItem(3)?.isChecked = displayTransilien
-
+        for (lineType in LineType.values()) {
+            subMenu?.findItem(lineType.menuFilterId)?.isChecked = displayFilters[lineType] ?: true
         }
     }
 
@@ -130,15 +105,12 @@ class MainFragment : Fragment(R.layout.main_fragment), MenuProvider {
             }
             // Filter items
             R.id.filter_rer, R.id.filter_metro, R.id.filter_tramway, R.id.filter_transilien -> {
-                menuItem.isChecked = !menuItem.isChecked
+                val newValue = !menuItem.isChecked
+                menuItem.isChecked = newValue
                 LineType.values().find { menuItem.itemId == it.menuFilterId }?.let {
-                    PersistenceUtils.setValue(
-                        activity as Context,
-                        it,
-                        menuItem.isChecked
-                    )
+                    viewModel.updateDisplayFilterValue(it, newValue)
+                    viewModel.getTrafficData().value?.data?.let { data -> setDisplayedContent(data) }
                 }
-                changeDisplayedCategories(menuItem.itemId, menuItem.isChecked)
                 return true
             }
             else -> {
@@ -160,9 +132,11 @@ class MainFragment : Fragment(R.layout.main_fragment), MenuProvider {
         ).show()
     }
 
-    private fun setDisplayedContent(results: ApiResponse) {
+    private fun setDisplayedContent(
+        results: ApiResponse
+    ) {
         val filteredResults = ListUtils.mapAndFilterResults(
-            results, displayRer, displayMetro, displayTramway, displayTransilien
+            results, viewModel.getDisplayFilters()
         )
 
         try {
@@ -171,17 +145,6 @@ class MainFragment : Fragment(R.layout.main_fragment), MenuProvider {
         } catch (pass: IllegalArgumentException) {
             displayErrorMessage()
         }
-    }
-
-    private fun changeDisplayedCategories(filterId: Int, newValue: Boolean) {
-        when (filterId) {
-            R.id.filter_rer -> displayRer = newValue
-            R.id.filter_metro -> displayMetro = newValue
-            R.id.filter_tramway -> displayTramway = newValue
-            R.id.filter_transilien -> displayTransilien = newValue
-        }
-
-        viewModel.getTraffic().value?.data?.let { setDisplayedContent(it) }
     }
 
     private fun showAboutPopup() {
