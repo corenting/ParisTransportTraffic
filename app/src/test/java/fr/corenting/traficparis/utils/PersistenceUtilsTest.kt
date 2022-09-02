@@ -3,7 +3,7 @@ package fr.corenting.traficparis.utils
 import android.content.Context
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import fr.corenting.traficparis.R
+import fr.corenting.traficparis.models.LineType
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,20 +16,30 @@ class PersistenceUtilsTest {
     private val context = ApplicationProvider.getApplicationContext<Context>()
 
     @Test
-    fun setRerDisplayValue() {
-        PersistenceUtils.setValue(context, R.id.filter_rer, false)
-        assertEquals(PersistenceUtils.getDisplayRerValue(context), false)
+    fun getDisplayCategoryValueForMetro() {
+        PersistenceUtils.setValue(context, LineType.METRO, false)
+
+        assertEquals(PersistenceUtils.getDisplayCategoryValue(context, LineType.METRO), false)
     }
 
     @Test
-    fun setMetroDisplayValue() {
-        PersistenceUtils.setValue(context, R.id.filter_metro, false)
-        assertEquals(PersistenceUtils.getDisplayMetroValue(context), false)
+    fun getDisplayCategoryValueForRer() {
+        PersistenceUtils.setValue(context, LineType.RER, false)
+
+        assertEquals(PersistenceUtils.getDisplayCategoryValue(context, LineType.RER), false)
     }
 
     @Test
-    fun setTramDisplayValue() {
-        PersistenceUtils.setValue(context, R.id.filter_tram, false)
-        assertEquals(PersistenceUtils.getDisplayTramValue(context), false)
+    fun getDisplayCategoryValueForTramway() {
+        PersistenceUtils.setValue(context, LineType.TRAMWAY, false)
+
+        assertEquals(PersistenceUtils.getDisplayCategoryValue(context, LineType.TRAMWAY), false)
+    }
+
+    @Test
+    fun getDisplayCategoryValueForTransilien() {
+        PersistenceUtils.setValue(context, LineType.TRANSILIEN, false)
+
+        assertEquals(PersistenceUtils.getDisplayCategoryValue(context, LineType.TRANSILIEN), false)
     }
 }

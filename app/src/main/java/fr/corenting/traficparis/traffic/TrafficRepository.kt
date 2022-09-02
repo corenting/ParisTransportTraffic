@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class TrafficRepository {
 
     private val apiService: TrafficApiService = Retrofit.Builder()
-        .baseUrl("https://api-ratp.pierre-grimaud.fr/v4/")
+        .baseUrl("https://tchoutchou.9cw.eu/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(TrafficApiService::class.java)

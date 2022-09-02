@@ -22,5 +22,6 @@ Version :&nbsp;
     <string name="filter">Filtrer</string>
     <string name="rer">RER</string>
     <string name="metro">Métro</string>
-    <string name="tram">Tramway</string>
+    <string name="tramway">Tramway</string>
+    <string name="transilien">Transilien</string>
 </resources>
