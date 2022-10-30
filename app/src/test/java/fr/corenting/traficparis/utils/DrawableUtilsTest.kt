@@ -37,7 +37,7 @@ class DrawableUtilsTest {
 
     @Test
     fun getDrawableForTramway() {
-        for (i in listOf("1", "2", "3a", "3b", "4", "5", "6", "7", "8", "11")) {
+        for (i in listOf("T1", "T2", "T3a", "T3b", "T4", "T5", "T6", "T7", "T8", "T11")) {
             val ret =
                 DrawableUtils.getDrawableForLine(this.context, LineType.TRAMWAY, i)
             assertNotNull(ret)
