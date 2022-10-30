@@ -9,7 +9,6 @@ import java.util.*
 
 object DrawableUtils {
     fun getDrawableForLine(context: Context, lineType: LineType, lineName: String): Drawable? {
-
         // First try to get specific line logo
         val name: String = when (lineType) {
             LineType.METRO -> "metro_$lineName"
