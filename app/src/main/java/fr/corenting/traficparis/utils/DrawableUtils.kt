@@ -26,7 +26,7 @@ object DrawableUtils {
 
         return ContextCompat.getDrawable(
             context,
-            getLineDrawable(context, name)
+            identifier
         )
     }
 
