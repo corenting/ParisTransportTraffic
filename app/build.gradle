@@ -67,7 +67,7 @@ dependencies {
 
     // Other
     implementation 'com.mikepenz:itemanimators:1.1.0'
-    implementation 'com.google.code.gson:gson:2.10'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     // Tests
     testImplementation 'androidx.test:core-ktx:1.5.0'
