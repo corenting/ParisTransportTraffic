@@ -6,6 +6,7 @@ import fr.corenting.traficparis.models.api.ApiResponse
 import fr.corenting.traficparis.models.api.ApiResponseItem
 import fr.corenting.traficparis.models.list.ListItemInterface
 import fr.corenting.traficparis.models.list.ListLineItem
+import fr.corenting.traficparis.models.list.ListNoDataItem
 import fr.corenting.traficparis.models.list.ListTitleItem
 
 object ListUtils {
@@ -15,30 +16,41 @@ object ListUtils {
     ): List<ListItemInterface> {
 
         val linesWithWork = filterLinesList(
-            mapLines(result.linesWithWork, LineState.WORK),
-            displayFilters
+            mapLines(result.linesWithWork, LineState.WORK), displayFilters
         )
         val linesWithIncidents = filterLinesList(
-            mapLines(result.linesWithIncidents, LineState.INCIDENT),
-            displayFilters
+            mapLines(result.linesWithIncidents, LineState.INCIDENT), displayFilters
         )
 
-        return listOf(ListTitleItem(LineState.INCIDENT)).plus(linesWithIncidents)
-            .plus(ListTitleItem(LineState.WORK)).plus(linesWithWork)
+        // If no incidents display a no data item to avoid the app displaying nothing
+        val results = mutableListOf<ListItemInterface>()
+        results.add(ListTitleItem(LineState.INCIDENT))
+        when {
+            linesWithIncidents.isNotEmpty() -> results.addAll(linesWithIncidents)
+            else -> results.add(ListNoDataItem(LineState.INCIDENT))
+        }
+
+        // For work, if empty just don't display it
+        if (linesWithWork.isNotEmpty()) {
+            results.add(ListTitleItem(LineState.WORK))
+            results.addAll(linesWithWork)
+        }
+
+        return results
     }
 
     /**
-     * Returns the lines items as list item from the [lines] from the API response.
+     * Returns a list of ListLineItem from the [lines] from the API response.
      */
     private fun mapLines(lines: List<ApiResponseItem>, state: LineState): List<ListLineItem> {
+        return emptyList()
         return lines.map { line ->
-            ListLineItem(
-                type = LineType.values().find { it.apiName == line.type } ?: LineType.METRO,
+            ListLineItem(type = LineType.values().find { it.apiName == line.type }
+                ?: LineType.METRO,
                 state = state,
                 name = line.name,
                 message = line.message,
-                title = line.title
-            )
+                title = line.title)
         }
     }
 
