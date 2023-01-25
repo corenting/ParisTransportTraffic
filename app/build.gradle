@@ -51,14 +51,14 @@ dependencies {
     // AndroidX
     def lifecycleVersion = '2.5.1'
     implementation 'androidx.activity:activity-ktx:1.6.1'
-    implementation 'androidx.fragment:fragment-ktx:1.5.4'
+    implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.8.0'
 
     // Retrofit
     def retrofitVersion = '2.9.0'
@@ -67,11 +67,11 @@ dependencies {
 
     // Other
     implementation 'com.mikepenz:itemanimators:1.1.0'
-    implementation 'com.google.code.gson:gson:2.10'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     // Tests
     testImplementation 'androidx.test:core-ktx:1.5.0'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:4.9.0'
-    testImplementation 'org.robolectric:robolectric:4.9'
+    testImplementation 'org.mockito:mockito-core:5.0.0'
+    testImplementation 'org.robolectric:robolectric:4.9.2'
 }
