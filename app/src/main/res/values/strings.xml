@@ -26,4 +26,6 @@ Version :&nbsp;
     <string name="metro">Metro</string>
     <string name="tramway">Tramway</string>
     <string name="transilien">Transilien</string>
+
+    <string name="no_data_issues">No issues reported</string>
 </resources>

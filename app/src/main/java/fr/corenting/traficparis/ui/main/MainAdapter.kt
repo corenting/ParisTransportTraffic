@@ -1,8 +1,6 @@
 package fr.corenting.traficparis.ui.main
 
 import android.annotation.SuppressLint
-import android.os.Build
-import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import fr.corenting.traficparis.R
 import fr.corenting.traficparis.databinding.ListItemBinding
+import fr.corenting.traficparis.databinding.ListNoDataBinding
 import fr.corenting.traficparis.databinding.ListTitleBinding
 import fr.corenting.traficparis.models.LineState
 import fr.corenting.traficparis.models.list.ListLineItem
@@ -60,37 +59,57 @@ class MainAdapter :
     companion object {
         const val TYPE_TITLE = 0
         const val TYPE_ITEM = 1
+        const val TYPE_NO_DATA = 2
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == TYPE_TITLE) {
-            val v = LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_title, parent, false)
-            HeaderViewHolder(v)
-        } else {
-            val v = LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_item, parent, false)
-            ItemViewHolder(v)
+        return when (viewType) {
+            TYPE_TITLE -> {
+                val v = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.list_title, parent, false)
+                HeaderViewHolder(v)
+            }
+            TYPE_ITEM -> {
+                val v = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.list_item, parent, false)
+                ItemViewHolder(v)
+            }
+            else -> {
+                val v = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.list_no_data, parent, false)
+                ItemViewHolder(v)
+            }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        val currentResult = getItem(position)
-        if (currentResult is ListTitleItem) {
-            return TYPE_TITLE
+        return when (getItem(position)) {
+            is ListTitleItem -> {
+                TYPE_TITLE
+            }
+            is ListLineItem -> {
+                TYPE_ITEM
+            }
+            else -> TYPE_NO_DATA
         }
-        return TYPE_ITEM
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentResult = getItem(position)
 
-        if (getItemViewType(position) == TYPE_ITEM) {
-            val itemViewBinding = ListItemBinding.bind(holder.itemView)
-            bindItemHolder(itemViewBinding, currentResult as ListLineItem)
-        } else {
-            val itemViewBinding = ListTitleBinding.bind(holder.itemView)
-            bindTitleHolder(itemViewBinding, currentResult as ListTitleItem)
+        when {
+            getItemViewType(position) == TYPE_ITEM -> {
+                val itemViewBinding = ListItemBinding.bind(holder.itemView)
+                bindItemHolder(itemViewBinding, currentResult as ListLineItem)
+            }
+            getItemViewType(position) == TYPE_TITLE -> {
+                val itemViewBinding = ListTitleBinding.bind(holder.itemView)
+                bindTitleHolder(itemViewBinding, currentResult as ListTitleItem)
+            }
+            getItemViewType(position) == TYPE_NO_DATA  -> {
+                val itemViewBinding = ListNoDataBinding.bind(holder.itemView)
+                bindNoDataHolder(itemViewBinding)
+            }
         }
     }
 
@@ -125,6 +144,11 @@ class MainAdapter :
             else -> context.getString(R.string.issues)
         }
         itemViewBinding.headerTitleTextView.text = title
+    }
+
+    private fun bindNoDataHolder(itemViewBinding: ListNoDataBinding) {
+        val context = itemViewBinding.root.context
+        itemViewBinding.textTextView.text = context.getString(R.string.no_data_issues)
     }
 
     class ItemViewHolder(itemView: View) :
