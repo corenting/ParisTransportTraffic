@@ -43,7 +43,6 @@ object ListUtils {
      * Returns a list of ListLineItem from the [lines] from the API response.
      */
     private fun mapLines(lines: List<ApiResponseItem>, state: LineState): List<ListLineItem> {
-        return emptyList()
         return lines.map { line ->
             ListLineItem(type = LineType.values().find { it.apiName == line.type }
                 ?: LineType.METRO,
