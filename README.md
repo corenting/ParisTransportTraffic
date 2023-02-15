@@ -6,9 +6,7 @@
 
 Android app for subway/tramway... traffic in Paris
 
-<img src="https://raw.githubusercontent.com/corenting/ParisTransportTraffic/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="500">
-
-<img src="https://raw.githubusercontent.com/corenting/ParisTransportTraffic/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="500">
+<img src="https://raw.githubusercontent.com/corenting/ParisTransportTraffic/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="200"><img src="https://raw.githubusercontent.com/corenting/ParisTransportTraffic/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="200">
 
 ## Download
 
