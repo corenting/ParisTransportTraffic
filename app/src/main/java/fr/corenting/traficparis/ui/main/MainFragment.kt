@@ -39,7 +39,7 @@ class MainFragment : Fragment(R.layout.main_fragment), MenuProvider {
 
         // Observable for refresh
         apiDataObserver = Observer { result ->
-            if (result?.data == null || result.error != null) {
+            if (result.data == null || result.error != null) {
                 displayErrorMessage()
             } else {
                 endLoading(empty = false)
