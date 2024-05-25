@@ -30,8 +30,8 @@ object DrawableUtils {
         )
     }
 
-    private fun getLineDrawable(context: Context, line_name: String): Int {
-        val resName = String.format("%s", line_name.lowercase(Locale.ROOT))
+    private fun getLineDrawable(context: Context, lineName: String): Int {
+        val resName = String.format("%s", lineName.lowercase(Locale.ROOT))
         return context.resources.getIdentifier(resName, "drawable", context.packageName)
     }
 }

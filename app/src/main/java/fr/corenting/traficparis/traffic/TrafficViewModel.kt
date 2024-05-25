@@ -26,7 +26,7 @@ class TrafficViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun initDisplayFilterValue() {
-        for (lineType in LineType.values()) {
+        for (lineType in LineType.entries) {
             displayFilters[lineType] = PersistenceUtils.getDisplayCategoryValue(getApplication(), lineType)
         }
     }

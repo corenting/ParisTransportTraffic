@@ -122,7 +122,7 @@ class MainAdapter :
         )
 
         itemViewBinding.messageTextView.text = htmlToSpanned(currentResult.message)
-        itemViewBinding.messageTextView.movementMethod = LinkMovementMethod.getInstance();
+        itemViewBinding.messageTextView.movementMethod = LinkMovementMethod.getInstance()
 
         // Drawable
         val drawable = DrawableUtils.getDrawableForLine(

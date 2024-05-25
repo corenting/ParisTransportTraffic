@@ -2,7 +2,12 @@ package fr.corenting.traficparis.ui.main
 
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuHost
@@ -10,7 +15,6 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -22,8 +26,8 @@ import fr.corenting.traficparis.models.LineType
 import fr.corenting.traficparis.models.RequestResult
 import fr.corenting.traficparis.models.api.ApiResponse
 import fr.corenting.traficparis.traffic.TrafficViewModel
-import fr.corenting.traficparis.utils.MiscUtils
 import fr.corenting.traficparis.utils.ListUtils
+import fr.corenting.traficparis.utils.MiscUtils
 
 
 class MainFragment : Fragment(R.layout.main_fragment), MenuProvider {
@@ -91,7 +95,7 @@ class MainFragment : Fragment(R.layout.main_fragment), MenuProvider {
         val subMenu = menu.getItem(0)?.subMenu
         val displayFilters = viewModel.getDisplayFilters()
 
-        for (lineType in LineType.values()) {
+        for (lineType in LineType.entries) {
             subMenu?.findItem(lineType.menuFilterId)?.isChecked = displayFilters[lineType] ?: true
         }
     }
@@ -107,7 +111,7 @@ class MainFragment : Fragment(R.layout.main_fragment), MenuProvider {
             R.id.filter_rer, R.id.filter_metro, R.id.filter_tramway, R.id.filter_transilien -> {
                 val newValue = !menuItem.isChecked
                 menuItem.isChecked = newValue
-                LineType.values().find { menuItem.itemId == it.menuFilterId }?.let {
+                LineType.entries.find { menuItem.itemId == it.menuFilterId }?.let {
                     viewModel.updateDisplayFilterValue(it, newValue)
                     viewModel.getTrafficData().value?.data?.let { data -> setDisplayedContent(data) }
                 }

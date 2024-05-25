@@ -44,7 +44,7 @@ object ListUtils {
      */
     private fun mapLines(lines: List<ApiResponseItem>, state: LineState): List<ListLineItem> {
         return lines.map { line ->
-            ListLineItem(type = LineType.values().find { it.apiName == line.type }
+            ListLineItem(type = LineType.entries.find { it.apiName == line.type }
                 ?: LineType.METRO,
                 state = state,
                 name = line.name,
