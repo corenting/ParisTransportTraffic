@@ -52,7 +52,7 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
     // AndroidX
-    def lifecycleVersion = '2.8.0'
+    def lifecycleVersion = '2.8.2'
     implementation 'androidx.activity:activity-ktx:1.9.0'
     implementation 'androidx.fragment:fragment-ktx:1.7.1'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
