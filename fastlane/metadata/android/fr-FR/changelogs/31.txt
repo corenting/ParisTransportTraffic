@@ -1,0 +1,2 @@
+- Mise à jour pour Android 16
+- Ajout de l'icône pour le tramway T14

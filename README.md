@@ -10,7 +10,7 @@
 
 </div>
 
-This Android application allows you to consult various traffic informations for different RATP/SNCF transports (for Paris and the suburbs) :
+This application allows you to consult various traffic information for different RATP/SNCF transport services (for Paris and the suburbs) :
 
 - Métro
 - RER
