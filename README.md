@@ -30,4 +30,4 @@ This Android application allows you to consult various traffic informations for 
      alt="Get it on Google Play"
      height="80">](https://play.google.com/store/apps/details?id=fr.corenting.traficparis)
 
-<small>Or download the apk file directly in the [Github releases](https://github.com/corenting/ParisTransportTraffic/releases)</small>
+<sub>Or download the apk file directly in the [Github releases](https://github.com/corenting/ParisTransportTraffic/releases)</sub>
