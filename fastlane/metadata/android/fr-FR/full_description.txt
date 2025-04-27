@@ -1,8 +1,8 @@
-Cette application vous permet de consulter rapidement les informations trafic pour différents transports RATP/SNCF (sur Paris et ses alentours) :
+Cette application vous permet de consulter rapidement les informations trafic pour différents services de transport RATP/SNCF (sur Paris et ses alentours) :
 • Métro
 • RER
 • Tramway
 <br />
-<b>Cette application n\'est pas officielle et n\'est pas approuvée ou liée à Île-de-France Mobilités, la RATP, la SNCF ou tout autre organisme de transport.</b>
+<b>Cette application n'est pas officielle et n'est pas approuvée ou liée à Île-de-France Mobilités, la RATP, la SNCF ou tout autre organisme de transport.</b>
 <br />
 Les pictogrammes des lignes sont de Île-de-France Mobilités (https://data.iledefrance-mobilites.fr/explore/dataset/emplacement-des-gares-idf/information/) et sont sous la licence "Licence Ouverte v2.0 (Etalab)" (https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf).

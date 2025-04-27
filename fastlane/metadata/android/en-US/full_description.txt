@@ -1,8 +1,8 @@
-This app allows you to consult various traffic informations for different RATP/SNCF transports (for Paris and the suburbs) :
+This application allows you to consult various traffic information for different RATP/SNCF transport services (for Paris and the suburbs) :
 • Métro
 • RER
 • Tramway
 <br />
-<b>This application is not official and\n is not endorsed or approved by Île-de-France Mobilités, RATP, SNCF or any other transport network company.</b>
+<b>This application is not official and is not endorsed or approved by Île-de-France Mobilités, RATP, SNCF or any other transport network company.</b>
 <br />
 The pictograms of the lines are from Île-de-France Mobilités (https://data.iledefrance-mobilites.fr/explore/dataset/emplacement-des-gares-idf/information/) and are under the "Licence Ouverte v2.0 (Etalab)" license (https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf).

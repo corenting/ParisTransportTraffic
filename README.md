@@ -1,12 +1,25 @@
-# Paris Transport Traffic
+<div align="center">
+
+<image src="fastlane/metadata/android/en-US/images/icon.png" height="100">
 
 ![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/corenting/ParisTransportTraffic/ci.yml?branch=master)
 [![GitHub release](https://img.shields.io/github/release/corenting/ParisTransportTraffic.svg)](https://github.com/corenting/ParisTransportTraffic/releases)
 [![GitHub license](https://img.shields.io/github/license/corenting/ParisTransportTraffic.svg)](https://github.com/corenting/ParisTransportTraffic/blob/master/LICENSE)
 
-Android app for subway/tramway... traffic in Paris
+# Paris Transport Traffic
 
-<img src="https://raw.githubusercontent.com/corenting/ParisTransportTraffic/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="200"><img src="https://raw.githubusercontent.com/corenting/ParisTransportTraffic/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="200">
+</div>
+
+This Android application allows you to consult various traffic informations for different RATP/SNCF transports (for Paris and the suburbs) :
+
+- Métro
+- RER
+- Tramway
+
+<div>
+<img src="https://raw.githubusercontent.com/corenting/ParisTransportTraffic/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="200">
+<img src="https://raw.githubusercontent.com/corenting/ParisTransportTraffic/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="200">
+</div>
 
 ## Download
 
