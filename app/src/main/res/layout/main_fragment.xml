@@ -10,6 +10,7 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="64dp"
         android:visibility="visible">
 
         <androidx.recyclerview.widget.RecyclerView

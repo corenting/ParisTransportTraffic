@@ -1,0 +1,1 @@
+- Fix tramway icons text color when using dark mode
