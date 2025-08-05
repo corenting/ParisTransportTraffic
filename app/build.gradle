@@ -52,7 +52,7 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 
     // AndroidX
-    def lifecycleVersion = '2.9.1'
+    def lifecycleVersion = '2.9.2'
     implementation 'androidx.activity:activity-ktx:1.10.1'
     implementation 'androidx.fragment:fragment-ktx:1.8.8'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
@@ -64,7 +64,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.12.0'
 
     // ktor
-    def ktorVersion = "3.2.1"
+    def ktorVersion = "3.2.3"
     implementation "io.ktor:ktor-client-core:${ktorVersion}"
     implementation "io.ktor:ktor-client-cio:${ktorVersion}"
     implementation "io.ktor:ktor-client-content-negotiation:${ktorVersion}"
@@ -75,7 +75,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.13.1'
 
     // Tests
-    testImplementation 'androidx.test:core-ktx:1.6.1'
+    testImplementation 'androidx.test:core-ktx:1.7.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:5.18.0'
     testImplementation 'org.robolectric:robolectric:4.15.1'
