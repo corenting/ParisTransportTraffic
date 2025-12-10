@@ -1,15 +1,17 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdk 36
+    compileSdk = 36
 
     defaultConfig {
         applicationId "fr.corenting.traficparis"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 36
-        versionCode 32
-        versionName "5.5"
+        versionCode 33
+        versionName "5.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -20,8 +22,10 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
     }
 
     // For tests
@@ -34,7 +38,7 @@ android {
             minifyEnabled true
             shrinkResources false
 
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -52,16 +56,16 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 
     // AndroidX
-    def lifecycleVersion = '2.9.1'
-    implementation 'androidx.activity:activity-ktx:1.10.1'
-    implementation 'androidx.fragment:fragment-ktx:1.8.8'
+    def lifecycleVersion = '2.10.0'
+    implementation 'androidx.activity:activity-ktx:1.12.1'
+    implementation 'androidx.fragment:fragment-ktx:1.8.9'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'androidx.core:core-ktx:1.16.0'
-    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.core:core-ktx:1.17.0'
+    implementation 'com.google.android.material:material:1.13.0'
 
     // ktor
     def ktorVersion = "3.2.1"
@@ -72,11 +76,11 @@ dependencies {
 
     // Other
     implementation 'com.mikepenz:itemanimators:1.1.0'
-    implementation 'com.google.code.gson:gson:2.13.1'
+    implementation 'com.google.code.gson:gson:2.13.2'
 
     // Tests
-    testImplementation 'androidx.test:core-ktx:1.6.1'
+    testImplementation 'androidx.test:core-ktx:1.7.0'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.18.0'
-    testImplementation 'org.robolectric:robolectric:4.15.1'
+    testImplementation 'org.mockito:mockito-core:5.21.0'
+    testImplementation 'org.robolectric:robolectric:4.16'
 }

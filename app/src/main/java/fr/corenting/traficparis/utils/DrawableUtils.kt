@@ -15,6 +15,7 @@ object DrawableUtils {
             LineType.RER -> "rer_$lineName"
             LineType.TRAMWAY -> "tramway_$lineName"
             LineType.TRANSILIEN -> "transilien_$lineName"
+            LineType.OTHER -> "other_$lineName"
         }
 
         val identifier = getLineDrawable(context, name)
@@ -30,8 +31,8 @@ object DrawableUtils {
         )
     }
 
-    private fun getLineDrawable(context: Context, lineName: String): Int {
-        val resName = String.format("%s", lineName.lowercase(Locale.ROOT))
+    private fun getLineDrawable(context: Context, resourceName: String): Int {
+        val resName = String.format("%s", resourceName.lowercase(Locale.ROOT))
         return context.resources.getIdentifier(resName, "drawable", context.packageName)
     }
 }

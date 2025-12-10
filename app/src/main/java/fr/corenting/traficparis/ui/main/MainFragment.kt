@@ -108,7 +108,7 @@ class MainFragment : Fragment(R.layout.main_fragment), MenuProvider {
                 return true
             }
             // Filter items
-            R.id.filter_rer, R.id.filter_metro, R.id.filter_tramway, R.id.filter_transilien -> {
+            R.id.filter_rer, R.id.filter_metro, R.id.filter_tramway, R.id.filter_transilien, R.id.filter_other -> {
                 val newValue = !menuItem.isChecked
                 menuItem.isChecked = newValue
                 LineType.entries.find { menuItem.itemId == it.menuFilterId }?.let {

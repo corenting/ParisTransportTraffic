@@ -1,0 +1,2 @@
+- Add missing icons
+- Move C1 and Montmartre funicular to another category
