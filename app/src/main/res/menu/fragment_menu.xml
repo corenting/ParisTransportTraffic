@@ -24,6 +24,10 @@
                     android:id="@+id/filter_transilien"
                     android:checked="true"
                     android:title="@string/transilien" />
+                <item
+                    android:id="@+id/filter_other"
+                    android:checked="true"
+                    android:title="@string/other" />
             </group>
         </menu>
     </item>

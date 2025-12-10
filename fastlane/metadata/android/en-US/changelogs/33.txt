@@ -1,0 +1,2 @@
+- Ajout des icônes manquantes
+- Déplacement du C1 et du funiculaire de Montmartre dans une autre catégorie

@@ -1,0 +1,1 @@
+- Correctif pour la couleur du texte des icônes des lignes de tramway lors de l'utilisation du thème sombre
