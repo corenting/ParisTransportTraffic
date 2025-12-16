@@ -68,7 +68,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.13.0'
 
     // ktor
-    def ktorVersion = "3.2.1"
+    def ktorVersion = "3.3.3"
     implementation "io.ktor:ktor-client-core:${ktorVersion}"
     implementation "io.ktor:ktor-client-cio:${ktorVersion}"
     implementation "io.ktor:ktor-client-content-negotiation:${ktorVersion}"
