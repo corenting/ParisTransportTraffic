@@ -4,7 +4,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdk = 36
+    compileSdk = 36.1
 
     defaultConfig {
         applicationId "fr.corenting.traficparis"
@@ -57,7 +57,7 @@ dependencies {
 
     // AndroidX
     def lifecycleVersion = '2.10.0'
-    implementation 'androidx.activity:activity-ktx:1.12.1'
+    implementation 'androidx.activity:activity-ktx:1.12.3'
     implementation 'androidx.fragment:fragment-ktx:1.8.9'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
@@ -82,5 +82,5 @@ dependencies {
     testImplementation 'androidx.test:core-ktx:1.7.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:5.21.0'
-    testImplementation 'org.robolectric:robolectric:4.16'
+    testImplementation 'org.robolectric:robolectric:4.16.1'
 }
