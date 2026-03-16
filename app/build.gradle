@@ -54,18 +54,18 @@ dependencies {
 
     // AndroidX
     def lifecycleVersion = '2.10.0'
-    implementation 'androidx.activity:activity-ktx:1.12.4'
+    implementation 'androidx.activity:activity-ktx:1.13.0'
     implementation 'androidx.fragment:fragment-ktx:1.8.9'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'androidx.core:core-ktx:1.17.0'
+    implementation 'androidx.core:core-ktx:1.18.0'
     implementation 'com.google.android.material:material:1.13.0'
 
     // ktor
-    def ktorVersion = "3.4.0"
+    def ktorVersion = "3.4.1"
     implementation "io.ktor:ktor-client-core:${ktorVersion}"
     implementation "io.ktor:ktor-client-cio:${ktorVersion}"
     implementation "io.ktor:ktor-client-content-negotiation:${ktorVersion}"
@@ -78,6 +78,6 @@ dependencies {
     // Tests
     testImplementation 'androidx.test:core-ktx:1.7.0'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.22.0'
+    testImplementation 'org.mockito:mockito-core:5.23.0'
     testImplementation 'org.robolectric:robolectric:4.16.1'
 }
