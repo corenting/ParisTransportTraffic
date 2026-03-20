@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Trafic transports parisiens</string>
+    <string name="nothing_to_display">Rien à afficher</string>
+    <string name="line_logo_description">Logo de la ligne</string>
+    <string name="line_title">Ligne %1$s - %2$s</string>
+    <string name="about_menu_icon">Icône menu à propos</string>
+    <string name="about_text"><![CDATA[
+Application par corenting.
+<br>
+<a href="http://www.corenting.fr">Site web et informations de contact</a>
+<br><br>
+<b>Cette application n\'est pas officielle et n\'est pas approuvée ou liée à Île-de-France Mobilités, la RATP, la SNCF ou tout autre organisme de transport.</b>
+<br><br>
+Les pictogrammes des lignes sont de <a href="https://data.iledefrance-mobilites.fr/explore/dataset/emplacement-des-gares-idf/information/">Île-de-France Mobilités</a> et sont sous la licence <a href="https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf">Licence Ouverte v2.0 (Etalab)</a>.
+<br><br>
+Version :&nbsp;
+    ]]></string>
+    <string name="about">À propos</string>
+    <string name="download_error">Erreur lors du téléchargement du contenu</string>
+    <string name="normal_traffic">Trafic normal</string>
+    <string name="work">Travaux</string>
+    <string name="issues">Pertubations</string>
+    <string name="filter">Filtrer</string>
+    <string name="rer">RER</string>
+    <string name="metro">Métro</string>
+    <string name="tramway">Tramway</string>
+    <string name="transilien">Transilien</string>
+    <string name="other">Autre</string>
+    <string name="no_data_issues">Aucun problème signalé</string>
+</resources>

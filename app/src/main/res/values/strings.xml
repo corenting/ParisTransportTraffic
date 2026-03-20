@@ -1,4 +1,33 @@
 <resources>
-    <string name="app_name">ParisTransportTraffic</string>
+    <string name="app_name">Paris transport traffic</string>
+    <string name="nothing_to_display">Nothing to display</string>
+    <string name="line_logo_description">Line logo</string>
+    <string name="line_title">Line %1$s - %2$s</string>
+    <string name="about">About</string>
+    <string name="filter">Filter</string>
     <string name="about_menu_icon">About menu icon</string>
+
+    <string name="about_text"><![CDATA[
+Application created by corenting.
+<br>
+<a href="http://www.corenting.fr">Website and contact information</a>
+<br><br>
+<b>This application is not official and\n is not endorsed or approved by Île-de-France Mobilités, RATP, SNCF or any other transport network company.</b>
+<br><br>
+The pictograms of the lines are from <a href="https://data.iledefrance-mobilites.fr/explore/dataset/emplacement-des-gares-idf/information/">Île-de-France Mobilités</a> and are under the <a href="https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf">Licence Ouverte v2.0 (Etalab) license</a>.
+<br><br>
+Version :&nbsp;
+]]></string>
+    <string name="download_error">Error while downloading content</string>
+    <string name="normal_traffic">Normal traffic</string>
+    <string name="work">Planned work</string>
+    <string name="issues">Issues</string>
+
+    <string name="rer">RER</string>
+    <string name="metro">Metro</string>
+    <string name="tramway">Tramway</string>
+    <string name="transilien">Transilien</string>
+    <string name="other">Other</string>
+
+    <string name="no_data_issues">No issues reported</string>
 </resources>
