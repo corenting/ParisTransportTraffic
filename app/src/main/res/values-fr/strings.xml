@@ -3,6 +3,7 @@
     <string name="nothing_to_display">Rien à afficher</string>
     <string name="line_logo_description">Logo de la ligne</string>
     <string name="line_title">Ligne %1$s - %2$s</string>
+    <string name="about_menu_icon">Icône menu à propos</string>
     <string name="about_text"><![CDATA[
 Application par corenting.
 <br>

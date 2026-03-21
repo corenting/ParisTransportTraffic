@@ -5,11 +5,12 @@
     <string name="line_title">Line %1$s - %2$s</string>
     <string name="about">About</string>
     <string name="filter">Filter</string>
+    <string name="about_menu_icon">About menu icon</string>
 
     <string name="about_text"><![CDATA[
 Application created by corenting.
 <br>
-<a href="http://www.corenting.fr">Website and contact informations</a>
+<a href="http://www.corenting.fr">Website and contact information</a>
 <br><br>
 <b>This application is not official and\n is not endorsed or approved by Île-de-France Mobilités, RATP, SNCF or any other transport network company.</b>
 <br><br>

@@ -4,13 +4,13 @@
     android:viewportWidth="283.46"
     android:viewportHeight="283.46">
   <path
-      android:fillColor="@color/icon_text_color_if_no_bg"
+      android:fillColor="#000000"
       android:pathData="M105.95,107.41l0,89.55l-24.13,0l0,-89.55l-33.57,0l0,-19.65l91.25,0l0,19.65z"/>
   <group>
     <clip-path
         android:pathData="M0,0h283.46v283.46h-283.46z"/>
     <path
-        android:fillColor="@color/icon_text_color_if_no_bg"
+        android:fillColor="#000000"
         android:pathData="M164.38,196.96V182.58c2.78,-12.69 15.31,-24.28 29.85,-36.97c7.27,-6.34 15.15,-14.23 15.15,-24.75c0,-9.43 -6.19,-17.32 -18.09,-17.32c-9.59,0 -16.24,6.96 -18.87,9.9l-11.44,-15.15c10.52,-9.13 20.26,-13.46 34.96,-13.46c19.18,0 37.27,11.14 37.27,33.41c0,18.72 -11.9,27.53 -25.05,39.44c-5.57,5.1 -16.55,14.69 -17.94,21.03h45.01v18.25H164.38z"/>
   </group>
   <group>

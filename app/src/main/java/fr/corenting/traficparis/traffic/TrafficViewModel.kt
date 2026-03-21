@@ -1,52 +1,85 @@
 package fr.corenting.traficparis.traffic
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import fr.corenting.traficparis.models.LineType
-import fr.corenting.traficparis.models.RequestResult
 import fr.corenting.traficparis.models.api.ApiResponse
-import fr.corenting.traficparis.utils.PersistenceUtils
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlin.collections.mutableMapOf
-import kotlin.collections.set
 
+val Context.dataStore by preferencesDataStore(name = "settings")
 
-class TrafficViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: TrafficRepository = TrafficRepository()
+sealed interface TrafficUiState {
+    data object Loading : TrafficUiState
+    data class Success(val response: ApiResponse) : TrafficUiState
+    data class Error(val message: String?) : TrafficUiState
+}
 
-    private val trafficData = MutableLiveData<RequestResult<ApiResponse>>()
-    private val displayFilters = mutableMapOf<LineType, Boolean>()
+private val defaultFilters = LineType.entries.associateWith { true }
+
+class TrafficViewModel(
+    private val repository: TrafficRepository,
+    private val dataStore: DataStore<Preferences>,
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow<TrafficUiState>(TrafficUiState.Loading)
+    val uiState: StateFlow<TrafficUiState> = _uiState.asStateFlow()
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
+    val filters: StateFlow<Map<LineType, Boolean>> = dataStore.data
+        .map { prefs ->
+            LineType.entries.associateWith { lineType ->
+                prefs[booleanPreferencesKey("filter_${lineType.apiName}")] ?: defaultFilters.getValue(lineType)
+            }
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), defaultFilters)
 
     init {
-        initDisplayFilterValue()
-        refreshTrafficData()
+        refresh()
     }
 
-    private fun initDisplayFilterValue() {
-        for (lineType in LineType.entries) {
-            displayFilters[lineType] = PersistenceUtils.getDisplayCategoryValue(getApplication(), lineType)
-        }
-    }
-
-    fun updateDisplayFilterValue(lineType: LineType, newValue: Boolean) {
-        PersistenceUtils.setValue(getApplication(), lineType, newValue)
-        displayFilters[lineType] = newValue
-    }
-
-    fun refreshTrafficData() {
+    fun refresh() {
         viewModelScope.launch {
-            trafficData.postValue(repository.getTraffic())
+            _isRefreshing.value = true
+            runCatching { repository.getTraffic() }
+                .onSuccess { _uiState.value = TrafficUiState.Success(it) }
+                .onFailure {
+                    if (_uiState.value !is TrafficUiState.Success) {
+                        _uiState.value = TrafficUiState.Error(it.message)
+                    }
+                }
+            _isRefreshing.value = false
         }
     }
 
-    fun getTrafficData(): LiveData<RequestResult<ApiResponse>> {
-        return trafficData
+    fun toggleFilter(lineType: LineType) {
+        viewModelScope.launch {
+            dataStore.edit { prefs ->
+                val key = booleanPreferencesKey("filter_${lineType.apiName}")
+                prefs[key] = !(prefs[key] ?: true)
+            }
+        }
     }
 
-    fun getDisplayFilters(): Map<LineType, Boolean> {
-        return displayFilters
+    companion object {
+        fun factory(context: Context): ViewModelProvider.Factory = viewModelFactory {
+            initializer { TrafficViewModel(TrafficRepository(), context.dataStore) }
+        }
     }
 }
