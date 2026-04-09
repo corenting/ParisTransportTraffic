@@ -7,15 +7,13 @@ plugins {
 android {
     namespace = "fr.corenting.traficparis"
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version = release(37)
     }
 
     defaultConfig {
         applicationId = "fr.corenting.traficparis"
         minSdk = 23
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 34
         versionName = "6.0"
 
