@@ -1,6 +1,8 @@
 package fr.corenting.traficparis.ui.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -69,7 +71,12 @@ fun TrafficList(
             }
 
             is TrafficUiState.Error -> {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState()),
+                    contentAlignment = Alignment.Center,
+                ) {
                     Text(
                         text = stringResource(R.string.nothing_to_display),
                         style = MaterialTheme.typography.bodyMedium,
